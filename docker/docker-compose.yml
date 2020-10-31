@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  nest:
+    container_name: smart-roomies
+    working_dir: /home/node/app
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../:/home/node/app
+    depends_on:
+      - db
+    command: npm run start:dev
+  db:
+    container_name: smart-roomies-db
+    image: mongo
+    restart: always
+    volumes:
+      - db-data:/data/db
+      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
+    ports:
+      - "27017:27017"
+    env_file:
+      - ../.env
+
+volumes:
+  db-data:
