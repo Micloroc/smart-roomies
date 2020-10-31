@@ -1,3 +1,3 @@
-export interface IdFactory {
-  uuid4(): string;
+export abstract class IdFactory {
+  abstract id(): string;
 }

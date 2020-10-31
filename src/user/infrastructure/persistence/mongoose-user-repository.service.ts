@@ -19,6 +19,10 @@ export class MongooseUserRepository implements UserRepository {
     return this.userModel.findById(id).exec();
   }
 
+  async findByEmail(email: string): Promise<User> {
+    return this.userModel.findOne({email: email}).exec();
+  }
+
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
