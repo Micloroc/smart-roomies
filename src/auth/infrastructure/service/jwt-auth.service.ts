@@ -1,26 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { MongooseUserRepository } from '../../../user/infrastructure/persistence/mongoose-user-repository.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../../../user/domain/user.repository';
 import { User } from '../../../user/domain/user.entity';
+import { AuthService } from '../../application/service/auth.service';
 
 @Injectable()
-export class AuthService {
+export class JwtAuthService implements AuthService {
   constructor(
     private userRepository: UserRepository,
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userRepository.findById(email);
-
-
-  }
-
-  async login(user: User) {
+  login(user: User): string {
     const payload = { username: user.email, sub: user.id };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    return this.jwtService.sign(payload);
   }
 }

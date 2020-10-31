@@ -33,9 +33,9 @@ export class AuthController {
   // @UseGuards(JwtAuthGuard)
   @Post('login')
   async login(@Request() req,  @Res() res: Response, @Body() command: LoginUserCommand) {
-    await this.commandBus.execute(command);
-    return res.status(HttpStatus.OK).json([]);
+    const token = await this.commandBus.execute(command)
+    console.log(token);
 
-    return req;
+    return res.status(HttpStatus.OK).json({token});
   }
 }
