@@ -16,11 +16,14 @@ const AuthServiceProvider = {
 @Module({
   imports: [
     UserModule,
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => {
         return {
           secret: configService.get<string>('JWT_SECRET_KEY'),
+          signOptions: {
+            expiresIn: configService.get<string>('JWT_EXPIRES_IN')
+          }
         };
       },
       inject: [ConfigService],

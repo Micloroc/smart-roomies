@@ -12,7 +12,7 @@ export class JwtAuthService implements AuthService {
   ) {}
 
   login(user: User): string {
-    const payload = { username: user.email, sub: user.id };
+    const payload = { email: user.email, sub: user.id };
     return this.jwtService.sign(payload);
   }
 }

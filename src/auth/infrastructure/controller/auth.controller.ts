@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Post,
   Request,
@@ -16,7 +17,8 @@ import { LoginUserCommand } from '../../application/command/login-user.command';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private commandBus: CommandBus, private idFactory: IdFactory) {}
+  constructor(private commandBus: CommandBus, private idFactory: IdFactory) {
+  }
 
   @Post('register')
   async register(
@@ -26,16 +28,23 @@ export class AuthController {
   ) {
     command.id = this.idFactory.id();
     await this.commandBus.execute(command);
-
     return res.status(HttpStatus.OK).json([]);
   }
 
-  // @UseGuards(JwtAuthGuard)
   @Post('login')
-  async login(@Request() req,  @Res() res: Response, @Body() command: LoginUserCommand) {
-    const token = await this.commandBus.execute(command)
-    console.log(token);
+  async login(
+    @Request() req,
+    @Res() res: Response,
+    @Body() command: LoginUserCommand,
+  ) {
+    const token = await this.commandBus.execute(command);
+    return res.status(HttpStatus.OK).json({ token });
+  }
 
-    return res.status(HttpStatus.OK).json({token});
+  @UseGuards(JwtAuthGuard)
+  @Get('test')
+  async test(@Request() req) {
+    console.log(req.user);
+    return 'OK';
   }
 }
