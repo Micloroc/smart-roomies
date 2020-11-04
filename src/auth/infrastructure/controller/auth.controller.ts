@@ -44,7 +44,6 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('test')
   async test(@Request() req) {
-    console.log(req.user);
     return 'OK';
   }
 }

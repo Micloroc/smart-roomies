@@ -3,6 +3,8 @@ import { CommonModule } from '../common/common.module';
 import { CommandBus, CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
 
 @Global()
 @Module({
@@ -10,6 +12,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     CommonModule,
     CqrsModule,
     ConfigModule.forRoot(),
+    GraphQLModule.forRoot({
+      typePaths: ['./**/*.graphql'],
+      definitions: {
+        path: join(process.cwd(), 'src/graphql.ts'),
+      },
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

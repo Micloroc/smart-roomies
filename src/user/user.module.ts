@@ -7,6 +7,7 @@ import { CommonModule } from '../common/common.module';
 import { CreateUserHandler } from './application/handler/create-user.handler';
 import { UserFactory } from './domain/user.factory';
 import { UserRepository } from './domain/user.repository';
+import { UserResolvers } from './infrastructure/graphql/user.resolvers';
 
 const UserRepositoryProvider: Provider =
   {
@@ -22,8 +23,8 @@ const UserRepositoryProvider: Provider =
     MongooseUserRepository,
     UserFactory,
     UserRepositoryProvider,
-    CreateUserHandler
-
+    CreateUserHandler,
+    UserResolvers
   ],
   exports: [UserRepositoryProvider, CreateUserHandler],
 })
