@@ -1,4 +1,4 @@
-import { CreateUserCommand } from '../application/command/create-user.command';
+import { CreateUserCommand } from '../application/commands/create-user.command';
 
 export class User {
   id: string;

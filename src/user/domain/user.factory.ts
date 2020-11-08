@@ -1,5 +1,5 @@
 import { User } from './user.entity';
-import { CreateUserCommand } from '../application/command/create-user.command';
+import { CreateUserCommand } from '../application/commands/create-user.command';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
