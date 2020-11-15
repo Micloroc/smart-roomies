@@ -10,34 +10,29 @@ export class CurrencyInput {
     currency?: string;
 }
 
-export class CreateHomeInput {
+export class CreateIngredientInput {
+    id: string;
+    creatorId: string;
     title: string;
-    description?: string;
-    creatorId?: string;
-    currency?: CurrencyInput;
 }
 
 export class Currency {
     currency?: string;
 }
 
-export class Home {
+export class Ingredient {
     id: string;
     title?: string;
-    description?: string;
-    adminIds?: string[];
-    userIds?: string[];
-    currency?: Currency;
 }
 
 export abstract class IQuery {
-    abstract home(id: string): Home | Promise<Home>;
+    abstract ingredient(id: string): Ingredient | Promise<Ingredient>;
 
     abstract user(id: string): User | Promise<User>;
 }
 
 export abstract class IMutation {
-    abstract createHome(createHome: CreateHomeInput): boolean | Promise<boolean>;
+    abstract createIngredient(createIngredient: CreateIngredientInput): boolean | Promise<boolean>;
 }
 
 export class User {

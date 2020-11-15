@@ -1,0 +1,19 @@
+type Ingredient {
+    id: String!
+    title: String
+}
+
+type Query {
+    ingredient(id: String!): Ingredient
+}
+
+input CreateIngredientInput {
+    id: String!
+    creatorId: String!
+    title: String!
+}
+
+type Mutation {
+    createIngredient(createIngredient: CreateIngredientInput!): Boolean
+}
+
