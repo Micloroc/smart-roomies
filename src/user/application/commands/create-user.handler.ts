@@ -1,9 +1,9 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { CreateUserCommand } from './create-user.command';
-import { UserRepository } from '../../domain/user.repository';
+import { UserRepository } from '../../domain/repositories/user.repository';
 import { ConflictException, Injectable } from '@nestjs/common';
-import { UserFactory } from '../../domain/user.factory';
-import { PasswordEncryptor } from '../../../common/domain/password/password-encryptor';
+import { UserFactory } from '../../domain/services/user.factory';
+import { PasswordEncryptor } from '../../../common/domain/service/password-encryptor';
 import { UserCreatedEvent } from '../../domain/events/user-created.event';
 
 @Injectable()
@@ -19,9 +19,11 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   async execute(command: CreateUserCommand) {
     let user = await this.userRepository.findById(command.id);
     if (user) throw new ConflictException();
+
     command.password = await this.passwordEncryptor.encrypt(command.password);
-    user = this.userFactory.standardUser(command);
+    user = this.userFactory.new(command);
     await this.userRepository.save(user);
+
     this.eventBus.publish(new UserCreatedEvent(user.id));
 
   }

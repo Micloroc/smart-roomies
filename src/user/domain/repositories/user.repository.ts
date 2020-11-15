@@ -1,4 +1,4 @@
-import { User } from './user.entity';
+import { User } from '../models/user.entity';
 
 export abstract class UserRepository {
   abstract async findById(id: string): Promise<User>;

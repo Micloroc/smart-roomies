@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginUserCommand } from '../command/login-user.command';
-import { UserRepository } from '../../../user/domain/user.repository';
-import { PasswordEncryptor } from '../../../common/domain/password/password-encryptor';
+import { UserRepository } from '../../../user/domain/repositories/user.repository';
+import { PasswordEncryptor } from '../../../common/domain/service/password-encryptor';
 import { AuthService } from '../service/auth.service';
 
 @Injectable()

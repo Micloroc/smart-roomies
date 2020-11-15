@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-export const UserSchema = new Schema({
+export const HomeSchema = new Schema({
   _id: {
     type: String,
     alias: 'id'

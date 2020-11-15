@@ -1,4 +1,4 @@
-import { PasswordEncryptor } from '../../../domain/password/password-encryptor';
+import { PasswordEncryptor } from '../../../domain/service/password-encryptor';
 import * as bcrypt from 'bcrypt';
 
 export class BcryptEncryptor implements PasswordEncryptor {

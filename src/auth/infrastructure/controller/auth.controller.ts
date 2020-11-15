@@ -11,7 +11,7 @@ import {
 import { Response } from 'express';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from '../../../user/application/commands/create-user.command';
-import { IdFactory } from '../../../common/domain/id/id.factory';
+import { IdFactory } from '../../../common/domain/service/id.factory';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { LoginUserCommand } from '../../application/command/login-user.command';
 

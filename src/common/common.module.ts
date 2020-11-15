@@ -1,7 +1,7 @@
 import { Module, Provider } from '@nestjs/common';
-import { IdFactory } from './domain/id/id.factory';
+import { IdFactory } from './domain/service/id.factory';
 import { UUIDFactory } from './infrastructure/domain/Id/id.factory';
-import { PasswordEncryptor } from './domain/password/password-encryptor';
+import { PasswordEncryptor } from './domain/service/password-encryptor';
 import { BcryptEncryptor } from './infrastructure/domain/password/bcrypt-encryptor.service';
 
 const IdFactoryProvider: Provider = {

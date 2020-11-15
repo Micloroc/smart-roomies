@@ -1,5 +1,5 @@
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { UserRepository } from '../../domain/user.repository';
+import { UserRepository } from '../../domain/repositories/user.repository';
 
 @Resolver('User')
 export class UserResolvers {
@@ -9,6 +9,7 @@ export class UserResolvers {
 
   @Query('user')
   async getUser(@Args('id') id: string) {
+    console.log(1);
     return this.userRepository.findById(id);
   }
 }
