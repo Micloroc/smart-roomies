@@ -2,7 +2,6 @@ import {Args, Mutation, Query, Resolver} from "@nestjs/graphql";
 import {CommandBus} from "@nestjs/cqrs";
 import {IngredientRepository} from "../../domain/repositories/ingredient.repository";
 import {CreateIngredient} from "../../domain/commands/create-ingredient.command";
-import {CreateIngredientInput} from "../../../graphql";
 
 @Resolver('Ingredient')
 export class IngredientResolvers {
