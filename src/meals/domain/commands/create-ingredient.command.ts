@@ -3,12 +3,16 @@ import {IsNotEmpty, IsUUID} from "class-validator";
 export class CreateIngredient {
     @IsUUID(4)
     @IsNotEmpty()
-    id;
+    id: string;
 
     @IsNotEmpty()
-    title;
+    title: string;
 
     @IsUUID(4)
     @IsNotEmpty()
-    creatorId;
+    homeId: string;
+
+    @IsUUID(4)
+    @IsNotEmpty()
+    creatorId: string;
 }

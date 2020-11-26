@@ -17,7 +17,6 @@ export class IngredientResolvers {
 
     @Mutation('createIngredient')
     async createHome(@Args('createIngredient') createIngredient: CreateIngredient) {
-        console.log(createIngredient);
         await this.commandBus.execute(createIngredient);
     }
 }

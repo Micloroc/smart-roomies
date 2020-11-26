@@ -1,7 +1,6 @@
 import {HomeRepository} from "../../domain/repositories/home.repository";
 import {Args, Mutation, Query, Resolver} from "@nestjs/graphql";
-import {Home} from "../../domain/model/home.entity";
-import {CreateHomeCommand} from "../../application/command/create-home.command";
+import {CreateHome} from "../../domain/command/create.home";
 import {CommandBus} from "@nestjs/cqrs";
 
 @Resolver('Home')
@@ -17,7 +16,7 @@ export class HomeResolvers {
     }
 
     @Mutation('createHome')
-    async createHome(@Args('createHome') createHomeInput: CreateHomeCommand) {
+    async createHome(@Args('createHome') createHomeInput: CreateHome) {
         await this.commandBus.execute(createHomeInput);
     }
 }

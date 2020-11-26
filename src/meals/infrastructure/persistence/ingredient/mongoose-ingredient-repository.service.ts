@@ -1,9 +1,9 @@
 import {Model} from "mongoose";
 import {Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
-import {IngredientRepository} from "../../domain/repositories/ingredient.repository";
+import {IngredientRepository} from "../../../domain/repositories/ingredient.repository";
 import {IngredientDocument} from "./ingredient.document";
-import {Ingredient} from "../../domain/models/ingredient.entity";
+import {Ingredient} from "../../../domain/models/ingredient.entity";
 
 @Injectable()
 export class MongooseIngredientRepository implements IngredientRepository {

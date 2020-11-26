@@ -1,7 +1,8 @@
-export class HomeCreatedEvent {
+export class HomeCreated {
   public readonly occurredOn: Date;
-
-  constructor(public readonly homeId: string) {
+  public readonly homeId: string
+  
+  constructor(homeId: string) {
     this.homeId = homeId;
     this.occurredOn = new Date();
   }

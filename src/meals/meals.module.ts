@@ -1,27 +1,46 @@
 import {Module, Provider} from '@nestjs/common';
 import {IngredientRepository} from "./domain/repositories/ingredient.repository";
-import {MongooseIngredientRepository} from "./infrastructure/persistence/mongoose-ingredient-repository.service";
+import {MongooseIngredientRepository} from "./infrastructure/persistence/ingredient/mongoose-ingredient-repository.service";
 import {MongooseModule} from "@nestjs/mongoose";
 import {Ingredient} from "./domain/models/ingredient.entity";
-import {IngredientSchema} from "./infrastructure/persistence/ingredient.schema";
-import {CreateIngredientHandler} from "./application/handler/command/create-ingredient.handler";
+import {IngredientSchema} from "./infrastructure/persistence/ingredient/ingredient.schema";
 import {IngredientResolvers} from "./infrastructure/graphql/ingredient.resolvers";
 import {UserModule} from "../user/user.module";
+import {HomeModule} from "../home/home.module";
+import {MealResolvers} from "./infrastructure/graphql/meal.resolvers";
+import {MealRepository} from "./domain/repositories/meal.repository";
+import {MongooseMealRepository} from "./infrastructure/persistence/meal/mongoose-meal-repository.service";
+import {MealSchema} from "./infrastructure/persistence/meal/meal.schema";
+import {Meal} from "./domain/models/meal.entity";
+import {CreateIngredientHandler} from "./application/handlers/command/create-ingredient.handler";
+import {CreateMealHandler} from "./application/handlers/command/create-meal.handler";
+import {AddMealIngredientHandler} from "./application/handlers/command/add-meal-ingredient.handler";
 
 const IngredientRepositoryProvider: Provider = {
     provide: IngredientRepository,
     useClass: MongooseIngredientRepository
 }
 
+const MealRepositoryProvider: Provider = {
+    provide: MealRepository,
+    useClass: MongooseMealRepository
+}
+
 @Module({
     imports: [
         MongooseModule.forFeature([{name: Ingredient.name, schema: IngredientSchema}]),
-        UserModule
+        MongooseModule.forFeature([{name: Meal.name, schema: MealSchema}]),
+        UserModule,
+        HomeModule
     ],
     providers: [
         IngredientRepositoryProvider,
+        MealRepositoryProvider,
         CreateIngredientHandler,
         IngredientResolvers,
+        MealResolvers,
+        CreateMealHandler,
+        AddMealIngredientHandler
     ],
     exports: [],
 })

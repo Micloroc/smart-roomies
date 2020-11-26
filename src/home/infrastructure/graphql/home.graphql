@@ -13,8 +13,11 @@ type Query {
 }
 
 input CreateHomeInput {
+    id: String!
     title: String!
     description: String
+    adminIds: [String]
+    userIds: [String]
     creatorId: String
     currency: CurrencyInput
 }

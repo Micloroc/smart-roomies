@@ -23,6 +23,9 @@ const HomeRepositoryProvider: Provider = {
         HomeResolvers,
         CreateHomeHandler,
         HomeFactory
+    ],
+    exports: [
+        HomeRepository
     ]
 })
 export class HomeModule {
