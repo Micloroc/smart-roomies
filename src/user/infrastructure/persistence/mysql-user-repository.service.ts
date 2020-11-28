@@ -1,29 +1,23 @@
-import {Model} from "mongoose";
-import {UserDocument} from "./user.document";
 import {Injectable} from "@nestjs/common";
-import {UserRepository} from "../../domain/repositories/user.repository";
-import {InjectModel} from "@nestjs/mongoose";
-import {User} from "../../domain/models/user.entity";
+import {UserRepository} from '../../domain/repositories/user.repository';
+import {User} from '../../domain/models/user.entity';
+import {EntityRepository, Repository} from 'typeorm';
 
 @Injectable()
-export class MysqlUserRepository implements UserRepository {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
-  }
+@EntityRepository(User)
+export class MysqlUserRepository extends Repository<User> implements UserRepository {
 
-  async save(user: User): Promise<User> {
-    const createdUser = new this.userModel(user);
-    return createdUser.save();
-  }
+    async findById(id: string): Promise<User> {
+        return this.findOne(id);
+    }
 
-  async findById(id: string): Promise<User> {
-    return this.userModel.findById(id).exec();
-  }
+    async findByEmail(email: string): Promise<User> {
+        return this.createQueryBuilder('user')
+            .where("user.email = :email", {email: email})
+            .getOne();
+    }
 
-  async findByEmail(email: string): Promise<User> {
-    return this.userModel.findOne({email: email}).exec();
-  }
-
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
-  }
+    async findAll(): Promise<User[]> {
+        return this.find();
+    }
 }

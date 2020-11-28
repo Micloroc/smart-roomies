@@ -6,49 +6,39 @@ import {MealStatus} from "./meal-status";
 import {AddMealIngredient} from "../commands/add-meal-ingredient.command";
 import {MealIngredientAlreadyExists} from "../exceptions/meal-ingredient-already-exists.exception";
 import {MealIngredientAdded} from "../events/meal-ingredient-added.event";
+import {Column, OneToMany, PrimaryColumn} from 'typeorm';
 
 export class Meal extends AggregateRoot {
+    @PrimaryColumn()
     public readonly id: string;
+    @Column()
     private _homeId: string;
+    @Column()
     private _creatorId: string;
+    @Column()
     private _title: string;
+    @Column()
     private _description: string;
+    @Column()
     private _createdAt: Date;
+    @Column()
     private _status: MealStatus;
+    @OneToMany(() => MealIngredient, mealIngredient => mealIngredient.meal)
     private _ingredients: MealIngredient[];
 
-    constructor(id: string,
-                homeId: string,
-                creatorId: string,
-                title: string,
-                description: string,
-                createdAt: Date,
-                status: MealStatus,
-                ingredients: MealIngredient[]) {
+    constructor(command: CreateMeal) {
         super();
-        this.id = id;
-        this._homeId = homeId;
-        this._creatorId = creatorId;
-        this._title = title;
-        this._description = description;
-        this._createdAt = createdAt;
-        this._status = status;
-        this._ingredients = ingredients;
-    }
+        this.id = command.id;
+        this._homeId = command.homeId;
+        this._creatorId = command.creatorId;
+        this._title = command.title;
+        this._description = command.description;
+        this._createdAt = new Date();
+        this._status = MealStatus.enabled();
+        this._ingredients = command.ingredients;
 
-// constructor(command: CreateMeal) {
-    //     super();
-    //     this.id = command.id;
-    //     this._homeId = command.homeId;
-    //     this._creatorId = command.creatorId;
-    //     this._title = command.title;
-    //     this._description = command.description;
-    //     this._createdAt = new Date();
-    //     this._status = MealStatus.enabled();
-    //     this._ingredients = command.ingredients;
-    //
-    //     this.apply(new MealCreated(this.id));
-    // }
+        this.apply(new MealCreated(this.id));
+    }
 
     get creatorId(): string {
         return this._creatorId;
@@ -90,7 +80,7 @@ export class Meal extends AggregateRoot {
         return mealIngredient;
     }
 
-     addMealIngredient(command: AddMealIngredient) {
+    addMealIngredient(command: AddMealIngredient) {
         const mealIngredient = this.ingredientById(command.ingredientId);
         if (mealIngredient)
             throw new MealIngredientAlreadyExists();

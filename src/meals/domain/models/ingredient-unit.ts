@@ -1,7 +1,11 @@
+import {Column} from 'typeorm';
+
 export class IngredientUnit {
     static readonly GRAMS_UNIT = 'grams';
     static readonly MILLILITERS_UNIT = 'milliliters';
     static readonly GENERIC_UNIT = 'generic';
+
+    @Column()
     private readonly _value: string;
 
     private constructor(amount: string) {

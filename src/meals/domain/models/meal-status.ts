@@ -1,7 +1,10 @@
+import {Column} from 'typeorm';
+
 export class MealStatus {
     static readonly ENABLED = 'enabled';
     static readonly DELETED = 'deleted';
 
+    @Column()
     private readonly _status: string;
 
     private constructor(status: string) {
