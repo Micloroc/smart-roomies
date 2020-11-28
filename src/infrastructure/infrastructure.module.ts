@@ -5,6 +5,7 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {GraphQLModule} from '@nestjs/graphql';
 import {join} from 'path';
+import {TypeOrmModule} from "@nestjs/typeorm";
 
 @Global()
 @Module({
@@ -19,14 +20,22 @@ import {join} from 'path';
                 outputAs: 'class',
             },
         }),
-        MongooseModule.forRootAsync({
+        TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
-                uri: configService.get<string>('MONGODB_URI'),
+            useFactory: (configService: ConfigService) => ({
+                type: 'mysql',
+                host: configService.get('MYSQL_HOST'),
+                port: configService.get<number>('MYSQL_PORT'),
+                username: configService.get('MYSQL_USER'),
+                password: configService.get('MYSQL_PASSWORD'),
+                database: configService.get('MYSQL_DATABASE'),
+                autoLoadEntities:true,
+                synchronize: true,
             }),
             inject: [ConfigService],
-        }),
+        })
     ],
+
     exports: [CqrsModule, CommonModule, ConfigModule]
 })
 export class InfrastructureModule {

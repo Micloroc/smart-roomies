@@ -5,5 +5,5 @@ export abstract class HomeRepository {
 
     abstract async findAll(): Promise<Home[]>;
 
-    abstract async save(user: Home): Promise<Home>;
+    abstract async save(home: Home): Promise<Home>;
 }

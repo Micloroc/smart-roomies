@@ -1,14 +1,21 @@
-import {Currency} from "../../../common/domain/model/Currency";
-import {AggregateRoot} from "@nestjs/cqrs";
-import {CreateHome} from "../command/create.home";
-import {HomeCreated} from "../event/home.created";
+import {Currency} from '../../../common/domain/model/currency';
+import {AggregateRoot} from '@nestjs/cqrs';
+import {CreateHome} from '../command/create.home';
+import {HomeCreated} from '../event/home.created';
+import {Column, PrimaryColumn} from 'typeorm';
 
 export class Home extends AggregateRoot {
+    @PrimaryColumn()
     public readonly id: string;
+    @Column()
     private readonly _title: string;
+    @Column()
     private readonly _description: string;
+    @Column("simple-array")
     private readonly _adminIds: string[];
+    @Column("simple-array")
     private readonly _userIds: string[];
+    @Column(type => Currency)
     private readonly _currency: Currency;
 
     constructor(id: string, title: string, description: string, adminIds: string[], userIds: string[], currency: Currency) {

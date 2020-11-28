@@ -1,25 +1,17 @@
-import {Model} from "mongoose";
-import {Injectable} from "@nestjs/common";
-import {InjectModel} from "@nestjs/mongoose";
-import {MealRepository} from "../../../domain/repositories/meal.repository";
-import {MealDocument} from "./meal.document";
-import {Meal} from "../../../domain/models/meal.entity";
+import {Injectable} from '@nestjs/common';
+import {EntityRepository, Repository} from 'typeorm';
+import {Meal} from '../../../domain/models/meal.entity';
+import {MealRepository} from '../../../domain/repositories/meal.repository';
+
 
 @Injectable()
-export class MongooseMealRepository implements MealRepository {
-    constructor(@InjectModel(Meal.name) private mealModel: Model<MealDocument>) {
-    }
-
-    async save(meal: Meal): Promise<Meal> {
-        const createdMeal = new this.mealModel(meal);
-        return createdMeal.save();
-    }
-
+@EntityRepository(Meal)
+export class MysqlMealRepository extends Repository<Meal> implements MealRepository {
     async findById(id: string): Promise<Meal> {
-        return this.mealModel.findById(id).exec();
+        return this.findOne(id);
     }
 
     async findAll(): Promise<Meal[]> {
-        return this.mealModel.find().exec();
+        return this.find();
     }
 }

@@ -9,7 +9,7 @@ import {UserModule} from "../user/user.module";
 import {HomeModule} from "../home/home.module";
 import {MealResolvers} from "./infrastructure/graphql/meal.resolvers";
 import {MealRepository} from "./domain/repositories/meal.repository";
-import {MongooseMealRepository} from "./infrastructure/persistence/meal/mongoose-meal-repository.service";
+import {MysqlMealRepository} from "./infrastructure/persistence/meal/mongoose-meal-repository.service";
 import {MealSchema} from "./infrastructure/persistence/meal/meal.schema";
 import {Meal} from "./domain/models/meal.entity";
 import {CreateIngredientHandler} from "./application/handlers/command/create-ingredient.handler";
@@ -23,13 +23,11 @@ const IngredientRepositoryProvider: Provider = {
 
 const MealRepositoryProvider: Provider = {
     provide: MealRepository,
-    useClass: MongooseMealRepository
+    useClass: MysqlMealRepository
 }
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{name: Ingredient.name, schema: IngredientSchema}]),
-        MongooseModule.forFeature([{name: Meal.name, schema: MealSchema}]),
         UserModule,
         HomeModule
     ],

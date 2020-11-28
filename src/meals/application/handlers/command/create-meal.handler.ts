@@ -19,14 +19,13 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
     }
 
     async execute(command: CreateMeal) {
-        console.log(1);
         let meal = await this.mealRepository.findById(command.id);
         if (meal) throw new MealAlreadyExistsException();
 
         const home = await this.homeRepository.findById(command.homeId);
         if (!home) throw new HomeNotFound();
 
-        meal = new Meal(command);
+        // meal = new Meal(command);
         console.log(meal);
         await this.mealRepository.save(meal);
 

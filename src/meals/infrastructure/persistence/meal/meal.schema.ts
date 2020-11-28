@@ -35,4 +35,15 @@ export const MealSchema = new Schema({
         type: [MealIngredientSchema],
         alias: '_ingredients'
     }
+}, {
+    toObject: {
+        // virtuals: true,
+    },
+    toJSON: {
+        // virtuals: true,
+    }
 });
+
+// MealSchema.virtual('id').get(function () {
+//     return this._id;
+// });

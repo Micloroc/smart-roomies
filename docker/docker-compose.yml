@@ -7,21 +7,31 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - ../:/home/node/app
     depends_on:
       - db
     command: npm run start:dev
+#  db:
+#    container_name: smart-roomies-db
+#    image: mongo
+#    restart: always
+#    volumes:
+#      - db-data:/data/db
+#      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
+#    ports:
+#      - "27017:27017"
+#    env_file:
+#      - ../.env
   db:
+    image: mysql
     container_name: smart-roomies-db
-    image: mongo
     restart: always
     volumes:
-      - db-data:/data/db
-      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
+      - db-data:/var/lib/mysql
     ports:
-      - "27017:27017"
+      - 3306:3306
     env_file:
       - ../.env
 

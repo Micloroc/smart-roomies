@@ -1,12 +1,14 @@
 import {CommandHandler, EventPublisher, ICommandHandler} from "@nestjs/cqrs";
-import {BadRequestException, ConflictException, Injectable} from "@nestjs/common";
-import {Ingredient} from "../../../domain/models/ingredient.entity";
+import {Injectable} from "@nestjs/common";
 import {AddMealIngredient} from "../../../domain/commands/add-meal-ingredient.command";
 import {MealRepository} from "../../../domain/repositories/meal.repository";
 import {IngredientRepository} from "../../../domain/repositories/ingredient.repository";
 import {MealNotFound} from "../../../domain/exceptions/meal-not-found.exception";
 import {IngredientNotFound} from "../../../domain/exceptions/ingredient-not-found.exception";
-import {MealIngredientAlreadyExists} from "../../../domain/exceptions/meal-ingredient-already-exists.exception";
+import {plainToClass} from "class-transformer";
+import {Meal} from "../../../domain/models/meal.entity";
+import {MealDocument} from "../../../infrastructure/persistence/meal/meal.document";
+import {Model} from "mongoose";
 
 @Injectable()
 @CommandHandler(AddMealIngredient)
@@ -18,16 +20,14 @@ export class AddMealIngredientHandler implements ICommandHandler<AddMealIngredie
     }
 
     async execute(command: AddMealIngredient) {
-
         let meal = await this.mealRepository.findById(command.mealId);
+        console.log(meal);
         if (!meal) throw new MealNotFound();
 
         const ingredient = await this.ingredientRepository.findById(command.ingredientId);
         if (!ingredient) throw new IngredientNotFound();
-
         meal.addMealIngredient(command);
         meal = this.publisher.mergeObjectContext(meal);
         meal.commit();
-
     }
 }

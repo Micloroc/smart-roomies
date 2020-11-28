@@ -17,19 +17,38 @@ export class Meal extends AggregateRoot {
     private _status: MealStatus;
     private _ingredients: MealIngredient[];
 
-    constructor(command: CreateMeal) {
+    constructor(id: string,
+                homeId: string,
+                creatorId: string,
+                title: string,
+                description: string,
+                createdAt: Date,
+                status: MealStatus,
+                ingredients: MealIngredient[]) {
         super();
-        this.id = command.id;
-        this._homeId = command.homeId;
-        this._creatorId = command.creatorId;
-        this._title = command.title;
-        this._description = command.description;
-        this._createdAt = new Date();
-        this._status = MealStatus.enabled();
-        this._ingredients = command.ingredients;
-
-        this.apply(new MealCreated(this.id));
+        this.id = id;
+        this._homeId = homeId;
+        this._creatorId = creatorId;
+        this._title = title;
+        this._description = description;
+        this._createdAt = createdAt;
+        this._status = status;
+        this._ingredients = ingredients;
     }
+
+// constructor(command: CreateMeal) {
+    //     super();
+    //     this.id = command.id;
+    //     this._homeId = command.homeId;
+    //     this._creatorId = command.creatorId;
+    //     this._title = command.title;
+    //     this._description = command.description;
+    //     this._createdAt = new Date();
+    //     this._status = MealStatus.enabled();
+    //     this._ingredients = command.ingredients;
+    //
+    //     this.apply(new MealCreated(this.id));
+    // }
 
     get creatorId(): string {
         return this._creatorId;
@@ -71,7 +90,7 @@ export class Meal extends AggregateRoot {
         return mealIngredient;
     }
 
-    addMealIngredient(command: AddMealIngredient) {
+     addMealIngredient(command: AddMealIngredient) {
         const mealIngredient = this.ingredientById(command.ingredientId);
         if (mealIngredient)
             throw new MealIngredientAlreadyExists();
