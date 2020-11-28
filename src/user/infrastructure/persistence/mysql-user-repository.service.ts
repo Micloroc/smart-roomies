@@ -6,7 +6,7 @@ import {InjectModel} from "@nestjs/mongoose";
 import {User} from "../../domain/models/user.entity";
 
 @Injectable()
-export class MongooseUserRepository implements UserRepository {
+export class MysqlUserRepository implements UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
   }
 
