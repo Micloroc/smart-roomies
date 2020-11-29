@@ -45,5 +45,5 @@ const IngredientRepositoryProvider: Provider =
     ],
     exports: [],
 })
-export class MealsModule {
+export class MealModule {
 }
