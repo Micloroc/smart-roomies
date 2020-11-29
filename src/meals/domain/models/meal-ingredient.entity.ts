@@ -1,25 +1,28 @@
-import {IngredientUnit} from "./ingredient-unit";
-import {Column, ManyToOne} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from 'typeorm';
+import {IngredientUnit} from './ingredient-unit';
 import {Meal} from './meal.entity';
+import {MealStatus} from './meal-status';
 
+@Entity()
 export class MealIngredient {
-    @Column()
+    @PrimaryColumn({name: 'id'})
     private readonly _id: string;
-    @Column()
+    @Column({name: 'ingredientId'})
     private readonly _ingredientId: string;
-    @Column()
+    @Column({name: 'amount'})
     private readonly _amount: number;
-    @Column()
-    private readonly _unit: IngredientUnit;
-    @ManyToOne(() => Meal, meal => meal.ingredients)
+    @Column(type => IngredientUnit)
+    private _unit: IngredientUnit;
+    @ManyToOne(type => Meal, "_ingredients")
     private readonly _meal: Meal;
 
-    constructor(id: string, ingredientId: string, amount: number, unit: IngredientUnit) {
+    constructor(id: string, ingredientId: string, amount: number, unit: IngredientUnit, meal: Meal) {
         this._id = id;
         this._ingredientId = ingredientId;
         this._amount = amount;
         this._unit = unit;
-
+        this._meal = meal;
+        console.log(unit);
     }
 
     get id(): string {

@@ -1,8 +1,10 @@
-export class UserCreatedEvent {
-  public readonly occurredOn: Date;
+import {CreateUserCommand} from '../../application/commands/create-user.command';
 
-  constructor(public readonly userId: string) {
-    this.userId = userId;
-    this.occurredOn = new Date();
-  }
+export class UserCreated {
+    public readonly occurredOn: Date;
+
+    constructor(public readonly command: CreateUserCommand) {
+        this.occurredOn = new Date();
+        this.command = command;
+    }
 }

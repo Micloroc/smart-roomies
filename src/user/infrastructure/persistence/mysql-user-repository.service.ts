@@ -13,7 +13,7 @@ export class MysqlUserRepository extends Repository<User> implements UserReposit
 
     async findByEmail(email: string): Promise<User> {
         return this.createQueryBuilder('user')
-            .where("user.email = :email", {email: email})
+            .where("email = :email", {email: email})
             .getOne();
     }
 

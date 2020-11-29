@@ -1,43 +1,51 @@
-import {MealIngredient} from "./meal-ingredient.entity";
-import {CreateMeal} from "../commands/create-meal.command";
-import {AggregateRoot} from "@nestjs/cqrs";
-import {MealCreated} from "../events/meal-created.event";
-import {MealStatus} from "./meal-status";
-import {AddMealIngredient} from "../commands/add-meal-ingredient.command";
-import {MealIngredientAlreadyExists} from "../exceptions/meal-ingredient-already-exists.exception";
-import {MealIngredientAdded} from "../events/meal-ingredient-added.event";
-import {Column, OneToMany, PrimaryColumn} from 'typeorm';
+import {Column, Entity, OneToMany, PrimaryColumn} from 'typeorm';
+import {MealIngredient} from './meal-ingredient.entity';
+import {MealCreated} from '../events/meal-created.event';
+import {CreateMeal} from '../commands/create-meal.command';
+import {AggregateRoot} from '@nestjs/cqrs';
+import {MealIngredientAdded} from '../events/meal-ingredient-added.event';
+import {MealStatus} from './meal-status';
+import {MealIngredientAlreadyExists} from '../exceptions/meal-ingredient-already-exists.exception';
+import {AddMealIngredient} from '../commands/add-meal-ingredient.command';
 
+@Entity()
 export class Meal extends AggregateRoot {
-    @PrimaryColumn()
+    @PrimaryColumn({name: 'id'})
     public readonly id: string;
-    @Column()
-    private _homeId: string;
-    @Column()
-    private _creatorId: string;
-    @Column()
-    private _title: string;
-    @Column()
-    private _description: string;
-    @Column()
-    private _createdAt: Date;
-    @Column()
-    private _status: MealStatus;
-    @OneToMany(() => MealIngredient, mealIngredient => mealIngredient.meal)
+    @OneToMany(type => MealIngredient, "_meal", {cascade: true})
     private _ingredients: MealIngredient[];
+    @Column({name: 'homeId'})
+    private _homeId: string;
+    @Column({name: 'creatorId'})
+    private _creatorId: string;
+    @Column({name: 'title'})
+    private _title: string;
+    @Column({name: 'description', nullable: true})
+    private _description: string;
+    @Column({name: 'createdAt'})
+    private _createdAt: Date;
+    @Column(type => MealStatus)
+    private _status: MealStatus;
 
-    constructor(command: CreateMeal) {
+    constructor(id: string,
+                homeId: string,
+                creatorId: string,
+                title: string,
+                description: string,
+                status: MealStatus,
+                ingredients: MealIngredient[]) {
         super();
-        this.id = command.id;
-        this._homeId = command.homeId;
-        this._creatorId = command.creatorId;
-        this._title = command.title;
-        this._description = command.description;
-        this._createdAt = new Date();
-        this._status = MealStatus.enabled();
-        this._ingredients = command.ingredients;
+        this.id = id;
+        this._homeId = homeId;
+        this._creatorId = creatorId;
+        this._title = title;
+        this._description = description;
+        if (!description)
+            this._description = '';
 
-        this.apply(new MealCreated(this.id));
+        this._createdAt = new Date();
+        this._status = status;
+        this._ingredients = ingredients;
     }
 
     get creatorId(): string {
@@ -69,11 +77,27 @@ export class Meal extends AggregateRoot {
     }
 
     get ingredients(): MealIngredient[] {
+        if (!this._ingredients)
+            return [];
         return this._ingredients;
     }
 
+    static create(command: CreateMeal) {
+        const meal = new Meal(
+            command.id,
+            command.homeId,
+            command.creatorId,
+            command.title,
+            command.description,
+            MealStatus.enabled(),
+            command.ingredients
+        );
+        meal.apply(new MealCreated(command));
+        return meal;
+    }
+
     ingredientById(id: string): MealIngredient | null {
-        const mealIngredient = this._ingredients.find(mealIngredient => mealIngredient.id === id);
+        const mealIngredient = this.ingredients.find(mealIngredient => mealIngredient.id === id);
         if (!mealIngredient)
             return null;
 
@@ -85,12 +109,15 @@ export class Meal extends AggregateRoot {
         if (mealIngredient)
             throw new MealIngredientAlreadyExists();
 
-        this._ingredients.push(new MealIngredient(
+        const ingredients = this.ingredients;
+        ingredients.push(new MealIngredient(
             command.mealIngredientId,
             command.ingredientId,
             command.amount,
-            command.ingredientUnit
+            command.ingredientUnit,
+            this
         ));
+        this._ingredients = ingredients;
         this.apply(new MealIngredientAdded(command));
     }
 }

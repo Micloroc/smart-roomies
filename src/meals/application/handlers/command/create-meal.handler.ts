@@ -6,7 +6,7 @@ import {CreateMeal} from "../../../domain/commands/create-meal.command";
 import {MealRepository} from "../../../domain/repositories/meal.repository";
 import {HomeNotFound} from "../../../../home/domain/exceptions/home-not-found.exception";
 import {MealAlreadyExistsException} from "../../../domain/exceptions/meal-already-exists.exception";
-import {Meal} from "../../../domain/models/meal.entity";
+import {Meal} from '../../../domain/models/meal.entity';
 
 @Injectable()
 @CommandHandler(CreateMeal)
@@ -24,9 +24,7 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
 
         const home = await this.homeRepository.findById(command.homeId);
         if (!home) throw new HomeNotFound();
-
-        // meal = new Meal(command);
-        console.log(meal);
+        meal = Meal.create(command);
         await this.mealRepository.save(meal);
 
         meal = this.publisher.mergeObjectContext(meal);

@@ -1,17 +1,9 @@
+import {CreateIngredient} from '../commands/create-ingredient.command';
+
 export class IngredientCreated {
-    private readonly _occurredOn: Date;
-    private readonly _ingredientId: string;
+    public readonly _occurredOn: Date;
 
-    constructor(ingredientId: string) {
-        this._ingredientId = ingredientId;
+    constructor(public readonly command: CreateIngredient) {
         this._occurredOn = new Date();
-    }
-
-    get occurredOn(): Date {
-        return this._occurredOn;
-    }
-
-    get ingredientId(): string {
-        return this._ingredientId;
     }
 }

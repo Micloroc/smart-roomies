@@ -4,15 +4,11 @@ export class MealStatus {
     static readonly ENABLED = 'enabled';
     static readonly DELETED = 'deleted';
 
-    @Column()
-    private readonly _status: string;
+    @Column({name: 'status'})
+    public readonly _status: string;
 
     private constructor(status: string) {
         this._status = status;
-    }
-
-    get status(): string {
-        return this._status;
     }
 
     static enabled() {

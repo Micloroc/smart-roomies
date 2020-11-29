@@ -9,7 +9,6 @@ export class UserResolvers {
 
   @Query('user')
   async getUser(@Args('id') id: string) {
-    console.log(1);
     return this.userRepository.findById(id);
   }
 }

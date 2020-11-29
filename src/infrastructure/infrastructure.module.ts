@@ -1,7 +1,6 @@
 import {Global, Module} from '@nestjs/common';
 import {CommonModule} from '../common/common.module';
 import {CqrsModule} from '@nestjs/cqrs';
-import {MongooseModule} from '@nestjs/mongoose';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {GraphQLModule} from '@nestjs/graphql';
 import {join} from 'path';

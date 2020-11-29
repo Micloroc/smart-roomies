@@ -2,18 +2,20 @@ import {Currency} from '../../../common/domain/model/currency';
 import {AggregateRoot} from '@nestjs/cqrs';
 import {CreateHome} from '../command/create.home';
 import {HomeCreated} from '../event/home.created';
-import {Column, PrimaryColumn} from 'typeorm';
+import {Column, Entity, PrimaryColumn} from 'typeorm';
+import {type} from 'os';
 
+@Entity()
 export class Home extends AggregateRoot {
-    @PrimaryColumn()
+    @PrimaryColumn({name: 'id'})
     public readonly id: string;
-    @Column()
+    @Column({name: 'title'})
     private readonly _title: string;
-    @Column()
+    @Column({name: 'description', nullable: true})
     private readonly _description: string;
-    @Column("simple-array")
+    @Column({type: "simple-array", name: 'adminIds'})
     private readonly _adminIds: string[];
-    @Column("simple-array")
+    @Column({type: "simple-array", name: 'userIds'})
     private readonly _userIds: string[];
     @Column(type => Currency)
     private readonly _currency: Currency;
@@ -49,8 +51,8 @@ export class Home extends AggregateRoot {
     }
 
     static create(command: CreateHome) {
-        const home = new this(command.id, command.description, command.description, command.adminIds, command.userIds, command.currency);
-        this.apply(new HomeCreated(home.id));
+        const home = new this(command.id, command.title, command.description, command.adminIds, command.userIds, command.currency);
+        home.apply(new HomeCreated(home.id));
         return home;
     }
 }

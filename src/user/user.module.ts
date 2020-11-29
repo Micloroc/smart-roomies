@@ -1,23 +1,30 @@
-import {Module} from '@nestjs/common';
+import {Module, Provider} from '@nestjs/common';
 import {CreateUserHandler} from './application/commands/create-user.handler';
-import {UserFactory} from './domain/services/user.factory';
 import {UserResolvers} from './infrastructure/graphql/user.resolvers';
 import {UserCreatedHandler} from './domain/events/user-created.handler';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {MysqlUserRepository} from './infrastructure/persistence/mysql-user-repository.service';
+import {UserRepository} from './domain/repositories/user.repository';
+import {Connection} from 'typeorm';
+
+const UserRepositoryProvider: Provider =
+          {
+              provide: UserRepository,
+              useFactory: connection => connection.getCustomRepository(MysqlUserRepository),
+              inject: [Connection]
+          };
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([MysqlUserRepository])
     ],
     providers: [
-        MysqlUserRepository,
-        UserFactory,
+        UserRepositoryProvider,
         CreateUserHandler,
         UserCreatedHandler,
         UserResolvers
     ],
-    exports: [MysqlUserRepository, CreateUserHandler],
+    exports: [UserRepositoryProvider, CreateUserHandler],
 })
 export class UserModule {
 }

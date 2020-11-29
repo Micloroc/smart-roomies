@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsUUID} from "class-validator";
+import {IsInstance, IsNotEmpty, IsUUID} from "class-validator";
 import {IngredientUnit} from "../models/ingredient-unit";
 
 export class AddMealIngredient {

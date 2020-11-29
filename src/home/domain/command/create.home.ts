@@ -1,4 +1,4 @@
-import {Currency} from "../../../common/domain/model/Currency";
+import {Currency} from '../../../common/domain/model/currency';
 import {IsNotEmpty, IsUUID} from 'class-validator';
 
 export class CreateHome {

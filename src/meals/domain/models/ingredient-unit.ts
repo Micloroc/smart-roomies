@@ -5,15 +5,11 @@ export class IngredientUnit {
     static readonly MILLILITERS_UNIT = 'milliliters';
     static readonly GENERIC_UNIT = 'generic';
 
-    @Column()
-    private readonly _value: string;
+    @Column({name: 'value'})
+    public readonly value: string;
 
-    private constructor(amount: string) {
-        this._value = amount;
-    }
-
-    get value(): string {
-        return this._value;
+    constructor(amount: string) {
+        this.value = amount;
     }
 
     public static gramsUnit() {

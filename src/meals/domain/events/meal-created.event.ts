@@ -1,17 +1,9 @@
+import {CreateMeal} from '../commands/create-meal.command';
+
 export class MealCreated {
-    private readonly _occurredOn: Date;
-    private readonly _mealId: string;
+    public readonly _occurredOn: Date;
 
-    constructor(mealId: string) {
-        this._mealId = mealId;
+    constructor(public readonly command: CreateMeal) {
         this._occurredOn = new Date();
-    }
-
-    get occurredOn(): Date {
-        return this._occurredOn;
-    }
-
-    get mealId(): string {
-        return this._mealId;
     }
 }
