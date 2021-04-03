@@ -1,18 +1,7 @@
-type ShoppingList {
+type ShoppingListItem {
     id: String!
-    userId: String!
-    items: [ShoppingList]!
+    name: String!
+    amount: Float!
 }
 
-type Query {
-    ShoppingList(id: String!): ShoppingList
-}
 
-input CreateShoppingListInput {
-    shoppingListId: String!
-    userId: String!
-}
-
-type Mutation {
-    createShoppingList(createShoppingList: CreateShoppingListInput!): Boolean
-}

@@ -1,5 +1,5 @@
 import {IsInstance, IsNotEmpty, IsUUID} from "class-validator";
-import {IngredientUnit} from "../models/ingredient-unit";
+import {Unit} from "../../../common/domain/model/unit";
 
 export class AddMealIngredient {
     @IsUUID(4)
@@ -14,5 +14,5 @@ export class AddMealIngredient {
     @IsNotEmpty()
     public readonly amount: number;
     @IsNotEmpty()
-    public readonly ingredientUnit: IngredientUnit;
+    public readonly ingredientUnit: Unit;
 }

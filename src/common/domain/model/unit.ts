@@ -8,8 +8,8 @@ export class Unit {
     @Column({name: 'value'})
     public readonly value: string;
 
-    constructor(amount: string) {
-        this.value = amount;
+    constructor(value: string) {
+        this.value = value;
     }
 
     public static gramsUnit() {
@@ -21,6 +21,6 @@ export class Unit {
     }
 
     public static genericUnit() {
-        return new Unit(Unit.MILLILITERS_UNIT);
+        return new Unit(Unit.GENERIC_UNIT);
     }
 }

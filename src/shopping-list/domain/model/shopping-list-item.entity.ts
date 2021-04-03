@@ -1,5 +1,6 @@
-import {Column, Entity, PrimaryColumn} from 'typeorm';
+import {Column, Entity, ManyToOne, PrimaryColumn} from 'typeorm';
 import {Unit} from '../../../common/domain/model/unit';
+import {ShoppingList} from './shopping-list.entity';
 
 @Entity()
 export abstract class ShoppingListItem {
@@ -15,6 +16,8 @@ export abstract class ShoppingListItem {
     private readonly _createdAt: Date;
     @Column({name: 'updatedAt'})
     private readonly _updatedAt: Date;
+    @ManyToOne(() => ShoppingList, list => list.items)
+    private readonly _list: ShoppingList;
 
     constructor(id: string, name: string, amount: number, unit: Unit, createdAt: Date, updatedAt: Date) {
         this._id = id;
@@ -23,6 +26,10 @@ export abstract class ShoppingListItem {
         this._unit = unit;
         this._createdAt = createdAt;
         this._updatedAt = updatedAt;
+    }
+
+    get list(): ShoppingList {
+        return this._list;
     }
 
     get id(): string {

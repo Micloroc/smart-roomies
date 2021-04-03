@@ -1,8 +1,9 @@
-import {Ingredient} from '../models/ingredient.entity';
+import {ShoppingList} from '../model/shopping-list.entity';
 
-export abstract class IngredientRepository {
-    abstract async findById(id: string): Promise<Ingredient>;
+export abstract class ShoppingListRepository {
+    abstract findById(id: string): Promise<ShoppingList>;
 
-    abstract async findAll(): Promise<Ingredient[]>;
-    abstract async save(ingredient: Ingredient): Promise<Ingredient>;
+    abstract findAll(): Promise<ShoppingList[]>;
+
+    abstract save(ingredient: ShoppingList): Promise<ShoppingList>;
 }

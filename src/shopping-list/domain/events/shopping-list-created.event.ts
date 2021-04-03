@@ -1,9 +1,8 @@
-import {CreateIngredient} from '../commands/create-ingredient.command';
 
-export class IngredientCreated {
+export class ShoppingListCreated {
     public readonly _occurredOn: Date;
 
-    constructor(public readonly command: CreateIngredient) {
+    constructor(public readonly command: CreateShoppingList) {
         this._occurredOn = new Date();
     }
 }

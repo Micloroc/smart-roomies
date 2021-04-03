@@ -1,18 +1,11 @@
 import {IsInstance, IsNotEmpty, IsUUID} from "class-validator";
 import {Unit} from "../../../common/domain/model/unit";
 
-export class AddMealIngredient {
+export class  CreateShoppingList {
     @IsUUID(4)
     @IsNotEmpty()
-    public readonly mealId: string;
+    public readonly shoppingListId: string;
     @IsUUID(4)
     @IsNotEmpty()
-    public readonly mealIngredientId: string;
-    @IsUUID(4)
-    @IsNotEmpty()
-    public readonly ingredientId: string;
-    @IsNotEmpty()
-    public readonly amount: number;
-    @IsNotEmpty()
-    public readonly ingredientUnit: Unit;
+    public readonly userId: string;
 }
