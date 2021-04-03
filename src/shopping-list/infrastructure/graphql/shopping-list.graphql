@@ -1,0 +1,39 @@
+type Meal {
+    id: String!
+    creatorId: String!
+    homeId: String!
+    title: String!
+    description: String
+}
+
+type Query {
+    meal(id: String!): Meal
+}
+
+input CreateMealInput {
+    id: String!
+    creatorId: String!
+    homeId: String!
+    title: String!
+    description: String
+}
+
+type Mutation {
+    createMeal(createMeal: CreateMealInput!): Boolean
+}
+
+input AddMealIngredientInput {
+    mealId: String!
+    mealIngredientId: String!
+    ingredientId: String!
+    amount: Int!
+    ingredientUnit: IngredientUnitInput!
+}
+
+input IngredientUnitInput {
+    value: String!
+}
+
+type Mutation {
+    addMealIngredient(addMealIngredient: AddMealIngredientInput!): Boolean
+}

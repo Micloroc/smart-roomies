@@ -1,6 +1,6 @@
 import {Column} from 'typeorm';
 
-export class IngredientUnit {
+export class Unit {
     static readonly GRAMS_UNIT = 'grams';
     static readonly MILLILITERS_UNIT = 'milliliters';
     static readonly GENERIC_UNIT = 'generic';
@@ -13,14 +13,14 @@ export class IngredientUnit {
     }
 
     public static gramsUnit() {
-        return new IngredientUnit(IngredientUnit.GRAMS_UNIT);
+        return new Unit(Unit.GRAMS_UNIT);
     }
 
     public static millilitersUnit() {
-        return new IngredientUnit(IngredientUnit.MILLILITERS_UNIT);
+        return new Unit(Unit.MILLILITERS_UNIT);
     }
 
     public static genericUnit() {
-        return new IngredientUnit(IngredientUnit.MILLILITERS_UNIT);
+        return new Unit(Unit.MILLILITERS_UNIT);
     }
 }
