@@ -1,7 +1,7 @@
-import {HttpException, HttpStatus} from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
-export class ShoppingListAlreadyExists extends HttpException {
-    constructor() {
-        super('ShoppingList already exists', HttpStatus.CONFLICT);
-    }
+export class ShoppingListNotFound extends HttpException {
+  constructor() {
+    super('Shopping list not found', HttpStatus.CONFLICT);
+  }
 }

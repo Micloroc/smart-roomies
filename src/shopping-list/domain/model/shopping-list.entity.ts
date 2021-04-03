@@ -3,6 +3,8 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { ShoppingListCreated } from '../events/shopping-list-created.event';
 import { CreateShoppingList } from '../commands/create-shopping-list.command';
 import { ShoppingListItem } from './shopping-list-item.entity';
+import { UpdateShoppingList } from '../commands/update-shopping-list.command';
+import { ShoppingListUpdated } from '../events/shopping-list-updated.event';
 
 @Entity()
 export class ShoppingList extends AggregateRoot {
@@ -11,7 +13,7 @@ export class ShoppingList extends AggregateRoot {
   @Column({ name: 'userId' })
   private readonly userId: string;
   @OneToMany(type => ShoppingListItem, '_list', { cascade: true })
-  private readonly _items: ShoppingListItem[];
+  private _items: ShoppingListItem[];
 
   constructor(id: string, userId: string, items: ShoppingListItem[]) {
     super();
@@ -32,5 +34,10 @@ export class ShoppingList extends AggregateRoot {
     const user = new this(command.shoppingListId, command.userId, []);
     user.apply(new ShoppingListCreated(command));
     return user;
+  }
+
+  update(command: UpdateShoppingList) {
+    this._items = command.items;
+    this.apply(new ShoppingListUpdated(command));
   }
 }
