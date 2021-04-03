@@ -6,6 +6,7 @@ import { ShoppingListRepository } from './domain/repositories/shopping-list.repo
 import { MysqlShoppingListRepository } from './infrastructure/persistence/mysql-shopping-list-repository.service';
 import { ShoppingListResolvers } from './infrastructure/graphql/shopping-list.resolvers';
 import { CreateShoppingListHandler } from './application/handlers/create-shopping-list.handler';
+import { ShoppingListItem } from './domain/model/shopping-list-item.entity';
 
 const ShoppingListRepositoryProvider: Provider = {
   provide: ShoppingListRepository,
@@ -15,7 +16,7 @@ const ShoppingListRepositoryProvider: Provider = {
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ShoppingList])],
+  imports: [TypeOrmModule.forFeature([ShoppingList, ShoppingListItem])],
   providers: [
     ShoppingListRepositoryProvider,
     ShoppingListResolvers,
@@ -23,4 +24,4 @@ const ShoppingListRepositoryProvider: Provider = {
   ],
   exports: [],
 })
-export class MealModule {}
+export class ShoppingListModule {}

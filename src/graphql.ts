@@ -47,6 +47,11 @@ export class IngredientUnitInput {
     value: string;
 }
 
+export class CreateShoppingListInput {
+    shoppingListId: string;
+    userId: string;
+}
+
 export class Currency {
     currency?: string;
 }
@@ -67,6 +72,8 @@ export abstract class IQuery {
 
     abstract meal(id: string): Meal | Promise<Meal>;
 
+    abstract shoppingList(id: string): ShoppingList | Promise<ShoppingList>;
+
     abstract user(id: string): User | Promise<User>;
 }
 
@@ -78,6 +85,8 @@ export abstract class IMutation {
     abstract createMeal(createMeal: CreateMealInput): boolean | Promise<boolean>;
 
     abstract addMealIngredient(addMealIngredient: AddMealIngredientInput): boolean | Promise<boolean>;
+
+    abstract createShoppingList(createShoppingList: CreateShoppingListInput): boolean | Promise<boolean>;
 }
 
 export class Ingredient {
@@ -91,6 +100,18 @@ export class Meal {
     homeId: string;
     title: string;
     description?: string;
+}
+
+export class ShoppingListItem {
+    id: string;
+    name: string;
+    amount: number;
+}
+
+export class ShoppingList {
+    id: string;
+    userId: string;
+    items: ShoppingListItem[];
 }
 
 export class User {
