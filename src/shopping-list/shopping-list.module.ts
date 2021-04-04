@@ -7,6 +7,7 @@ import { MysqlShoppingListRepository } from './infrastructure/persistence/mysql-
 import { ShoppingListResolvers } from './infrastructure/graphql/shopping-list.resolvers';
 import { CreateShoppingListHandler } from './application/handlers/create-shopping-list.handler';
 import { ShoppingListItem } from './domain/model/shopping-list-item.entity';
+import { UpdateShoppingListHandler } from './application/handlers/update-shopping-list.handler';
 
 const ShoppingListRepositoryProvider: Provider = {
   provide: ShoppingListRepository,
@@ -21,6 +22,7 @@ const ShoppingListRepositoryProvider: Provider = {
     ShoppingListRepositoryProvider,
     ShoppingListResolvers,
     CreateShoppingListHandler,
+    UpdateShoppingListHandler,
   ],
   exports: [],
 })

@@ -16,3 +16,26 @@ input CreateShoppingListInput {
 type Mutation {
     createShoppingList(createShoppingList: CreateShoppingListInput!): Boolean
 }
+
+type Input {
+    id: String!
+    name: String!
+    amount: Float!
+}
+
+input ShoppingListItemInput {
+    id: String!
+    name: String!
+    amount: Float!
+    unit: String!
+}
+
+input UpdateShoppingListInput {
+    shoppingListId: String!
+    userId: String!
+    items: [ShoppingListItemInput]!
+}
+
+type Mutation {
+    updateShoppingList(updateShoppingList: UpdateShoppingListInput!): Boolean
+}

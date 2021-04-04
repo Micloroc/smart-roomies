@@ -1,5 +1,5 @@
 import { IsArray, IsNotEmpty, IsUUID } from 'class-validator';
-import { ShoppingListItem } from '../model/shopping-list-item.entity';
+import { CreateOrUpdateShoppingListItem } from './create-or-update-shopping-list-item.command';
 
 export class UpdateShoppingList {
   @IsUUID(4)
@@ -8,6 +8,7 @@ export class UpdateShoppingList {
   @IsUUID(4)
   @IsNotEmpty()
   public readonly userId: string;
+  //TODO: Create or update shopping list item
   @IsArray()
-  public readonly items: ShoppingListItem[];
+  public readonly items: CreateOrUpdateShoppingListItem[];
 }

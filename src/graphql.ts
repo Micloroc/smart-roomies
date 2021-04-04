@@ -52,6 +52,19 @@ export class CreateShoppingListInput {
     userId: string;
 }
 
+export class ShoppingListItemInput {
+    id: string;
+    name: string;
+    amount: number;
+    unit: string;
+}
+
+export class UpdateShoppingListInput {
+    shoppingListId: string;
+    userId: string;
+    items: ShoppingListItemInput[];
+}
+
 export class Currency {
     currency?: string;
 }
@@ -87,6 +100,8 @@ export abstract class IMutation {
     abstract addMealIngredient(addMealIngredient: AddMealIngredientInput): boolean | Promise<boolean>;
 
     abstract createShoppingList(createShoppingList: CreateShoppingListInput): boolean | Promise<boolean>;
+
+    abstract updateShoppingList(updateShoppingList: UpdateShoppingListInput): boolean | Promise<boolean>;
 }
 
 export class Ingredient {
@@ -112,6 +127,12 @@ export class ShoppingList {
     id: string;
     userId: string;
     items: ShoppingListItem[];
+}
+
+export class Input {
+    id: string;
+    name: string;
+    amount: number;
 }
 
 export class User {
