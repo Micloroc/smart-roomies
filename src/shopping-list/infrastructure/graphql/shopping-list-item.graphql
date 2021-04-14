@@ -2,6 +2,7 @@ type ShoppingListItem {
     id: String!
     name: String!
     amount: Float!
+    unit: Unit!
 }
 
 

@@ -16,7 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       typePaths: ['./**/*.graphql'],
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
-        outputAs: 'class',
+        // outputAs: 'class',
       },
     }),
     TypeOrmModule.forRootAsync({

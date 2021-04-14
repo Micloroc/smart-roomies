@@ -6,11 +6,11 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export class CurrencyInput {
+export interface CurrencyInput {
     currency?: string;
 }
 
-export class CreateHomeInput {
+export interface CreateHomeInput {
     id: string;
     title: string;
     description?: string;
@@ -20,14 +20,14 @@ export class CreateHomeInput {
     currency?: CurrencyInput;
 }
 
-export class CreateIngredientInput {
+export interface CreateIngredientInput {
     id: string;
     title: string;
     creatorId: string;
     homeId: string;
 }
 
-export class CreateMealInput {
+export interface CreateMealInput {
     id: string;
     creatorId: string;
     homeId: string;
@@ -35,7 +35,7 @@ export class CreateMealInput {
     description?: string;
 }
 
-export class AddMealIngredientInput {
+export interface AddMealIngredientInput {
     mealId: string;
     mealIngredientId: string;
     ingredientId: string;
@@ -43,33 +43,37 @@ export class AddMealIngredientInput {
     ingredientUnit: IngredientUnitInput;
 }
 
-export class IngredientUnitInput {
+export interface IngredientUnitInput {
     value: string;
 }
 
-export class CreateShoppingListInput {
+export interface CreateShoppingListInput {
     shoppingListId: string;
     userId: string;
 }
 
-export class ShoppingListItemInput {
+export interface ShoppingListItemInput {
     id: string;
     name: string;
     amount: number;
     unit: string;
 }
 
-export class UpdateShoppingListInput {
+export interface UpdateShoppingListInput {
     shoppingListId: string;
     userId: string;
     items: ShoppingListItemInput[];
 }
 
-export class Currency {
+export interface Currency {
     currency?: string;
 }
 
-export class Home {
+export interface Unit {
+    value?: string;
+}
+
+export interface Home {
     id: string;
     title?: string;
     description?: string;
@@ -78,38 +82,29 @@ export class Home {
     currency?: Currency;
 }
 
-export abstract class IQuery {
-    abstract home(id: string): Home | Promise<Home>;
-
-    abstract ingredient(id: string): Ingredient | Promise<Ingredient>;
-
-    abstract meal(id: string): Meal | Promise<Meal>;
-
-    abstract shoppingList(id: string): ShoppingList | Promise<ShoppingList>;
-
-    abstract user(id: string): User | Promise<User>;
+export interface IQuery {
+    home(id: string): Home | Promise<Home>;
+    ingredient(id: string): Ingredient | Promise<Ingredient>;
+    meal(id: string): Meal | Promise<Meal>;
+    shoppingList(id: string): ShoppingList | Promise<ShoppingList>;
+    user(id: string): User | Promise<User>;
 }
 
-export abstract class IMutation {
-    abstract createHome(createHome: CreateHomeInput): boolean | Promise<boolean>;
-
-    abstract createIngredient(createIngredient: CreateIngredientInput): boolean | Promise<boolean>;
-
-    abstract createMeal(createMeal: CreateMealInput): boolean | Promise<boolean>;
-
-    abstract addMealIngredient(addMealIngredient: AddMealIngredientInput): boolean | Promise<boolean>;
-
-    abstract createShoppingList(createShoppingList: CreateShoppingListInput): boolean | Promise<boolean>;
-
-    abstract updateShoppingList(updateShoppingList: UpdateShoppingListInput): boolean | Promise<boolean>;
+export interface IMutation {
+    createHome(createHome: CreateHomeInput): boolean | Promise<boolean>;
+    createIngredient(createIngredient: CreateIngredientInput): boolean | Promise<boolean>;
+    createMeal(createMeal: CreateMealInput): boolean | Promise<boolean>;
+    addMealIngredient(addMealIngredient: AddMealIngredientInput): boolean | Promise<boolean>;
+    createShoppingList(createShoppingList: CreateShoppingListInput): boolean | Promise<boolean>;
+    updateShoppingList(updateShoppingList: UpdateShoppingListInput): boolean | Promise<boolean>;
 }
 
-export class Ingredient {
+export interface Ingredient {
     id: string;
     title?: string;
 }
 
-export class Meal {
+export interface Meal {
     id: string;
     creatorId: string;
     homeId: string;
@@ -117,25 +112,20 @@ export class Meal {
     description?: string;
 }
 
-export class ShoppingListItem {
+export interface ShoppingListItem {
     id: string;
     name: string;
     amount: number;
+    unit: Unit;
 }
 
-export class ShoppingList {
+export interface ShoppingList {
     id: string;
     userId: string;
     items: ShoppingListItem[];
 }
 
-export class Input {
-    id: string;
-    name: string;
-    amount: number;
-}
-
-export class User {
+export interface User {
     id: string;
     email?: string;
     firstName?: string;

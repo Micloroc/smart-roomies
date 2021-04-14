@@ -17,12 +17,6 @@ type Mutation {
     createShoppingList(createShoppingList: CreateShoppingListInput!): Boolean
 }
 
-type Input {
-    id: String!
-    name: String!
-    amount: Float!
-}
-
 input ShoppingListItemInput {
     id: String!
     name: String!
