@@ -73,6 +73,15 @@ export interface Unit {
     value?: string;
 }
 
+export interface IQuery {
+    availableUnits(): Unit[] | Promise<Unit[]>;
+    home(id: string): Home | Promise<Home>;
+    ingredient(id: string): Ingredient | Promise<Ingredient>;
+    meal(id: string): Meal | Promise<Meal>;
+    shoppingList(id: string): ShoppingList | Promise<ShoppingList>;
+    user(id: string): User | Promise<User>;
+}
+
 export interface Home {
     id: string;
     title?: string;
@@ -80,14 +89,6 @@ export interface Home {
     adminIds?: string[];
     userIds?: string[];
     currency?: Currency;
-}
-
-export interface IQuery {
-    home(id: string): Home | Promise<Home>;
-    ingredient(id: string): Ingredient | Promise<Ingredient>;
-    meal(id: string): Meal | Promise<Meal>;
-    shoppingList(id: string): ShoppingList | Promise<ShoppingList>;
-    user(id: string): User | Promise<User>;
 }
 
 export interface IMutation {

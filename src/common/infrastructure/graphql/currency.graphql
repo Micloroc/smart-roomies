@@ -5,7 +5,3 @@ type Currency {
 input CurrencyInput {
     currency: String
 }
-
-type Unit {
-    value: String
-}
