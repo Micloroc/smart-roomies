@@ -70,7 +70,7 @@ export interface Currency {
 }
 
 export interface Unit {
-    value?: string;
+    value: string;
 }
 
 export interface IQuery {

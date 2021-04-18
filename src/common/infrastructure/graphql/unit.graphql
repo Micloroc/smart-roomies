@@ -1,5 +1,5 @@
 type Unit {
-    value: String
+    value: String!
 }
 
 type Query {
