@@ -2,6 +2,10 @@ type Unit {
     value: String!
 }
 
+input UnitInput {
+    value: String!
+}
+
 type Query {
     availableUnits: [Unit]
 }

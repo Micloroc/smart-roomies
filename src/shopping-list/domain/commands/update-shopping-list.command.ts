@@ -8,7 +8,6 @@ export class UpdateShoppingList {
   @IsUUID(4)
   @IsNotEmpty()
   public readonly userId: string;
-  //TODO: Create or update shopping list item
   @IsArray()
   public readonly items: CreateOrUpdateShoppingListItem[];
 }

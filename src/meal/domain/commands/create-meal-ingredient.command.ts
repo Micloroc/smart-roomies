@@ -1,18 +1,19 @@
-import {IsNotEmpty, IsUUID} from "class-validator";
+import { IsNotEmpty, IsUUID } from 'class-validator';
+import { Unit } from '../../../common/domain/model/unit';
 
-export class CreateIngredient {
-    @IsUUID(4)
-    @IsNotEmpty()
-    id: string;
-
-    @IsNotEmpty()
-    title: string;
-
-    @IsUUID(4)
-    @IsNotEmpty()
-    homeId: string;
-
-    @IsUUID(4)
-    @IsNotEmpty()
-    creatorId: string;
+export class CreateMealIngredient {
+  @IsUUID(4)
+  @IsNotEmpty()
+  id: string;
+  @IsUUID(4)
+  @IsNotEmpty()
+  mealId: string;
+  @IsNotEmpty()
+  ingredientId: string;
+  @IsNotEmpty()
+  title: string;
+  @IsNotEmpty()
+  amount: number;
+  @IsNotEmpty()
+  unit: Unit;
 }

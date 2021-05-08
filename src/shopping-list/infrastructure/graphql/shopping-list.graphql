@@ -22,6 +22,7 @@ input ShoppingListItemInput {
     name: String!
     amount: Float!
     unit: String!
+    order: Int!
 }
 
 input UpdateShoppingListInput {

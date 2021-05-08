@@ -13,5 +13,8 @@ export class CreateOrUpdateShoppingListItem {
   @IsNumber()
   public readonly amount: number;
   @IsNotEmpty()
+  @IsNumber()
+  public readonly order: number;
+  @IsNotEmpty()
   public readonly unit: string;
 }

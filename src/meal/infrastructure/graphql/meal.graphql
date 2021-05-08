@@ -1,7 +1,6 @@
 type Meal {
     id: String!
     creatorId: String!
-    homeId: String!
     title: String!
     description: String
 }
@@ -10,12 +9,21 @@ type Query {
     meal(id: String!): Meal
 }
 
+input CreateMealIngredientInput {
+    id: String!
+    mealId: String!
+    ingredientId: String!
+    title: String!
+    amount: Float!
+    unit: UnitInput
+}
+
 input CreateMealInput {
     id: String!
     creatorId: String!
-    homeId: String!
     title: String!
     description: String
+    ingredientes: [CreateMealIngredientInput]
 }
 
 type Mutation {

@@ -1,7 +1,7 @@
-import {HttpException, HttpStatus} from "@nestjs/common";
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class HomeAlreadyExists extends HttpException {
-    constructor() {
-        super('Calendar already exists', HttpStatus.CONFLICT);
-    }
+  constructor() {
+    super('Meals already exists', HttpStatus.CONFLICT);
+  }
 }

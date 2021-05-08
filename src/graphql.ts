@@ -10,6 +10,10 @@ export interface CurrencyInput {
     currency?: string;
 }
 
+export interface UnitInput {
+    value: string;
+}
+
 export interface CreateHomeInput {
     id: string;
     title: string;
@@ -27,12 +31,21 @@ export interface CreateIngredientInput {
     homeId: string;
 }
 
+export interface CreateMealIngredientInput {
+    id: string;
+    mealId: string;
+    ingredientId: string;
+    title: string;
+    amount: number;
+    unit?: UnitInput;
+}
+
 export interface CreateMealInput {
     id: string;
     creatorId: string;
-    homeId: string;
     title: string;
     description?: string;
+    ingredientes?: CreateMealIngredientInput[];
 }
 
 export interface AddMealIngredientInput {
@@ -57,6 +70,7 @@ export interface ShoppingListItemInput {
     name: string;
     amount: number;
     unit: string;
+    order: number;
 }
 
 export interface UpdateShoppingListInput {
@@ -108,7 +122,6 @@ export interface Ingredient {
 export interface Meal {
     id: string;
     creatorId: string;
-    homeId: string;
     title: string;
     description?: string;
 }
@@ -118,6 +131,7 @@ export interface ShoppingListItem {
     name: string;
     amount: number;
     unit: Unit;
+    order: number;
 }
 
 export interface ShoppingList {

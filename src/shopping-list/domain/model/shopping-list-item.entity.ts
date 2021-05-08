@@ -5,19 +5,27 @@ import { CreateOrUpdateShoppingListItem } from '../commands/create-or-update-sho
 
 @Entity()
 export class ShoppingListItem {
+  set order(value: number) {
+    this._order = value;
+  }
+  get order(): number {
+    return this._order;
+  }
   @PrimaryColumn()
   private readonly _id: string;
   @Column({ name: 'name' })
   private _name: string;
   @Column({ name: 'amount' })
   private _amount: number;
-  @Column(type => Unit)
+  @Column({ name: 'order' })
+  private _order: number;
+  @Column((type) => Unit)
   private _unit: Unit;
   @Column({ name: 'createdAt' })
   private readonly _createdAt: Date;
   @Column({ name: 'updatedAt' })
   private _updatedAt: Date;
-  @ManyToOne(type => ShoppingList, '_items')
+  @ManyToOne((type) => ShoppingList, '_items')
   private _list: ShoppingList;
 
   constructor(
@@ -27,10 +35,12 @@ export class ShoppingListItem {
     unit: Unit,
     createdAt: Date,
     updatedAt: Date,
+    order: number,
   ) {
     this._id = id;
     this._name = name;
     this._amount = amount;
+    this._order = order;
     this._unit = unit;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
@@ -92,6 +102,7 @@ export class ShoppingListItem {
       new Unit(command.unit),
       new Date(),
       new Date(),
+      command.order,
     );
   }
 
@@ -102,5 +113,6 @@ export class ShoppingListItem {
     this.amount = command.amount;
     this.unit = new Unit(command.unit);
     this.updatedAt = new Date();
+    this.order = command.order;
   }
 }

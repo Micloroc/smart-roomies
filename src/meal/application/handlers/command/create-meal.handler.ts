@@ -1,33 +1,77 @@
-import {CommandHandler, EventPublisher, ICommandHandler} from "@nestjs/cqrs";
-import {Injectable} from "@nestjs/common";
-import {UserRepository} from "../../../../user/domain/repositories/user.repository";
-import {HomeRepository} from "../../../../home/domain/repositories/home.repository";
-import {CreateMeal} from "../../../domain/commands/create-meal.command";
-import {MealRepository} from "../../../domain/repositories/meal.repository";
-import {HomeNotFound} from "../../../../home/domain/exceptions/home-not-found.exception";
-import {MealAlreadyExistsException} from "../../../domain/exceptions/meal-already-exists.exception";
-import {Meal} from '../../../domain/models/meal.entity';
+import {
+  CommandBus,
+  CommandHandler,
+  EventPublisher,
+  ICommandHandler,
+} from '@nestjs/cqrs';
+import { Injectable } from '@nestjs/common';
+import { UserRepository } from '../../../../user/domain/repositories/user.repository';
+import { CreateMeal } from '../../../domain/commands/create-meal.command';
+import { MealRepository } from '../../../domain/repositories/meal.repository';
+import { MealAlreadyExistsException } from '../../../domain/exceptions/meal-already-exists.exception';
+import { Meal } from '../../../domain/models/meal.entity';
+import { IngredientRepository } from '../../../domain/repositories/ingredient.repository';
+import { CreateIngredient } from '../../../domain/commands/create-ingredient.command';
+import { IdFactory } from '../../../../common/domain/service/id.factory';
+import { IngredientNotFound } from '../../../domain/exceptions/ingredient-not-found.exception';
+import { CreateMealIngredient } from '../../../domain/commands/create-meal-ingredient.command';
 
 @Injectable()
 @CommandHandler(CreateMeal)
 export class CreateMealHandler implements ICommandHandler<CreateMeal> {
+  constructor(
+    private mealRepository: MealRepository,
+    private userRepository: UserRepository,
+    private ingredientRepository: IngredientRepository,
+    private idFactory: IdFactory,
+    private publisher: EventPublisher,
+    private commandBus: CommandBus,
+  ) {}
 
-    constructor(private mealRepository: MealRepository,
-                private userRepository: UserRepository,
-                private publisher: EventPublisher,
-                private homeRepository: HomeRepository) {
-    }
+  async execute(createMeal: CreateMeal) {
+    let meal = await this.mealRepository.findById(createMeal.id);
+    if (meal) throw new MealAlreadyExistsException();
 
-    async execute(command: CreateMeal) {
-        let meal = await this.mealRepository.findById(command.id);
-        if (meal) throw new MealAlreadyExistsException();
+    createMeal.createMealIngredientCommands = await this.populateIngredients(
+      createMeal,
+    );
 
-        const home = await this.homeRepository.findById(command.homeId);
-        if (!home) throw new HomeNotFound();
-        meal = Meal.create(command);
-        await this.mealRepository.save(meal);
+    meal = Meal.create(createMeal);
+    await this.mealRepository.save(meal);
 
-        meal = this.publisher.mergeObjectContext(meal);
-        meal.commit();
-    }
+    meal = this.publisher.mergeObjectContext(meal);
+    meal.commit();
+  }
+
+  private async populateIngredients(createMeal: CreateMeal) {
+    return await Promise.all(
+      createMeal.createMealIngredientCommands.map(
+        async (createMealIngredient) => {
+          await this.createIngredientIfNeeded(createMealIngredient, createMeal);
+          return createMealIngredient;
+        },
+      ),
+    );
+  }
+
+  private async createIngredientIfNeeded(
+    createMealIngredient: CreateMealIngredient,
+    createMeal: CreateMeal,
+  ) {
+    if (!createMealIngredient.ingredientId) this.createIngredient(createMeal);
+    const ingredient = await this.ingredientRepository.findById(
+      createMealIngredient.ingredientId,
+    );
+    if (!ingredient) throw new IngredientNotFound();
+    createMealIngredient.ingredientId = ingredient.id;
+  }
+
+  private createIngredient(command: CreateMeal) {
+    const createIngredient = new CreateIngredient(
+      this.idFactory.id(),
+      command.title,
+      command.creatorId,
+    );
+    this.commandBus.execute(createIngredient);
+  }
 }
