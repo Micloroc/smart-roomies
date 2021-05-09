@@ -5,7 +5,8 @@ import { EntityRepository, Repository } from 'typeorm';
 
 @Injectable()
 @EntityRepository(Ingredient)
-export class MysqlIngredientRepository extends Repository<Ingredient>
+export class MysqlIngredientRepository
+  extends Repository<Ingredient>
   implements IngredientRepository {
   async findById(id: string): Promise<Ingredient> {
     return this.findOne(id);

@@ -1,7 +1,9 @@
-import {Meal} from "../models/meal.entity";
+import { Meal } from '../models/meal.entity';
 
 export abstract class MealRepository {
-    abstract async findById(id: string): Promise<Meal>;
-    abstract async findAll(): Promise<Meal[]>;
-    abstract async save(meal: Meal): Promise<Meal>;
+  abstract findById(id: string): Promise<Meal>;
+  abstract findByHomeId(homeId: string): Promise<Meal[]>;
+  abstract findByCreatorId(creatorId: string): Promise<Meal[]>;
+  abstract findAll(): Promise<Meal[]>;
+  abstract save(meal: Meal): Promise<Meal>;
 }

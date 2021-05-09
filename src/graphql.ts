@@ -37,7 +37,7 @@ export interface CreateMealIngredientInput {
     ingredientId: string;
     title: string;
     amount: number;
-    unit?: UnitInput;
+    unit: UnitInput;
 }
 
 export interface CreateMealInput {
@@ -45,7 +45,7 @@ export interface CreateMealInput {
     creatorId: string;
     title: string;
     description?: string;
-    ingredientes?: CreateMealIngredientInput[];
+    createMealIngredients?: CreateMealIngredientInput[];
 }
 
 export interface AddMealIngredientInput {
@@ -92,6 +92,8 @@ export interface IQuery {
     home(id: string): Home | Promise<Home>;
     ingredient(id: string): Ingredient | Promise<Ingredient>;
     meal(id: string): Meal | Promise<Meal>;
+    mealsByCreatorId(creatorId: string): Meal[] | Promise<Meal[]>;
+    mealsByHomeId(homeId: string): Meal[] | Promise<Meal[]>;
     shoppingList(id: string): ShoppingList | Promise<ShoppingList>;
     user(id: string): User | Promise<User>;
 }
@@ -124,6 +126,14 @@ export interface Meal {
     creatorId: string;
     title: string;
     description?: string;
+    ingredients?: MealIngredient[];
+}
+
+export interface MealIngredient {
+    id: string;
+    ingredientId: string;
+    amount: number;
+    unit?: Unit;
 }
 
 export interface ShoppingListItem {

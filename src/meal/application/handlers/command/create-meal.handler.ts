@@ -32,7 +32,7 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
     let meal = await this.mealRepository.findById(createMeal.id);
     if (meal) throw new MealAlreadyExistsException();
 
-    createMeal.createMealIngredientCommands = await this.populateIngredients(
+    createMeal.createMealIngredients = await this.populateIngredients(
       createMeal,
     );
 
@@ -45,12 +45,10 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
 
   private async populateIngredients(createMeal: CreateMeal) {
     return await Promise.all(
-      createMeal.createMealIngredientCommands.map(
-        async (createMealIngredient) => {
-          await this.createIngredientIfNeeded(createMealIngredient, createMeal);
-          return createMealIngredient;
-        },
-      ),
+      createMeal.createMealIngredients.map(async (createMealIngredient) => {
+        await this.createIngredientIfNeeded(createMealIngredient, createMeal);
+        return createMealIngredient;
+      }),
     );
   }
 
@@ -58,20 +56,27 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
     createMealIngredient: CreateMealIngredient,
     createMeal: CreateMeal,
   ) {
-    if (!createMealIngredient.ingredientId) this.createIngredient(createMeal);
-    const ingredient = await this.ingredientRepository.findById(
+    let ingredient = await this.ingredientRepository.findById(
+      createMealIngredient.ingredientId,
+    );
+    if (!ingredient)
+      await this.createIngredient(createMeal, createMealIngredient);
+    ingredient = await this.ingredientRepository.findById(
       createMealIngredient.ingredientId,
     );
     if (!ingredient) throw new IngredientNotFound();
     createMealIngredient.ingredientId = ingredient.id;
   }
 
-  private createIngredient(command: CreateMeal) {
+  private async createIngredient(
+    createMeal: CreateMeal,
+    createMealIngredient: CreateMealIngredient,
+  ) {
     const createIngredient = new CreateIngredient(
-      this.idFactory.id(),
-      command.title,
-      command.creatorId,
+      createMealIngredient.ingredientId,
+      createMeal.title,
+      createMeal.creatorId,
     );
-    this.commandBus.execute(createIngredient);
+    await this.commandBus.execute(createIngredient);
   }
 }

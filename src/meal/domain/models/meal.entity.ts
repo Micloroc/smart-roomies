@@ -12,7 +12,7 @@ import { AddMealIngredient } from '../commands/add-meal-ingredient.command';
 export class Meal extends AggregateRoot {
   @PrimaryColumn({ name: 'id' })
   public readonly id: string;
-  @OneToMany((type) => MealIngredient, '_meal', { cascade: true })
+  @OneToMany((type) => MealIngredient, '_meal', { cascade: true, eager: true })
   private _ingredients: MealIngredient[];
   @Column({ name: 'creatorId' })
   private _creatorId: string;
@@ -85,7 +85,7 @@ export class Meal extends AggregateRoot {
       MealStatus.enabled(),
     );
     const mealIngredients = [];
-    command.createMealIngredientCommands.forEach((createMealIngredient) => {
+    command.createMealIngredients.forEach((createMealIngredient) => {
       const mealIngredient = new MealIngredient(
         createMealIngredient.id,
         createMealIngredient.ingredientId,

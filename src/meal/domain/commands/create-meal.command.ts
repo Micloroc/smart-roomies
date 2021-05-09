@@ -12,5 +12,5 @@ export class CreateMeal {
   title: string;
   description: string;
   @IsArray()
-  createMealIngredientCommands: CreateMealIngredient[];
+  createMealIngredients: CreateMealIngredient[];
 }
