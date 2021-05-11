@@ -12,6 +12,14 @@ export class MysqlIngredientRepository
     return this.findOne(id);
   }
 
+  findByCreatorId(id: string): Promise<Ingredient[]> {
+    return this.find({
+      where: {
+        _creatorId: id,
+      },
+    });
+  }
+
   async findAll(): Promise<Ingredient[]> {
     return this.find();
   }

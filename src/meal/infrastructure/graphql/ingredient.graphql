@@ -1,10 +1,12 @@
 type Ingredient {
     id: String!
-    title: String
+    title: String!
+    creatorId: String!
 }
 
 type Query {
     ingredient(id: String!): Ingredient
+    ingredientsByCreatorId(id: String!): [Ingredient]
 }
 
 input CreateIngredientInput {

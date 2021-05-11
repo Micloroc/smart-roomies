@@ -9,7 +9,7 @@ export class MysqlMealRepository
   extends Repository<Meal>
   implements MealRepository {
   async findById(id: string): Promise<Meal> {
-    return this.findOneOrFail(id);
+    return this.findOne(id);
   }
 
   findByHomeId(homeId: string): Promise<Meal[]> {

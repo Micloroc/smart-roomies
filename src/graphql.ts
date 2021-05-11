@@ -91,6 +91,7 @@ export interface IQuery {
     availableUnits(): Unit[] | Promise<Unit[]>;
     home(id: string): Home | Promise<Home>;
     ingredient(id: string): Ingredient | Promise<Ingredient>;
+    ingredientsByCreatorId(id: string): Ingredient[] | Promise<Ingredient[]>;
     meal(id: string): Meal | Promise<Meal>;
     mealsByCreatorId(creatorId: string): Meal[] | Promise<Meal[]>;
     mealsByHomeId(homeId: string): Meal[] | Promise<Meal[]>;
@@ -118,7 +119,8 @@ export interface IMutation {
 
 export interface Ingredient {
     id: string;
-    title?: string;
+    title: string;
+    creatorId: string;
 }
 
 export interface Meal {

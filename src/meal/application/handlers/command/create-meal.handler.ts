@@ -38,7 +38,6 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
 
     meal = Meal.create(createMeal);
     await this.mealRepository.save(meal);
-
     meal = this.publisher.mergeObjectContext(meal);
     meal.commit();
   }
