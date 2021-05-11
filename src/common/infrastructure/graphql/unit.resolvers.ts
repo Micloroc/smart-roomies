@@ -5,7 +5,6 @@ import { Unit } from '../../domain/model/unit';
 export class UnitResolvers {
   @Query('availableUnits')
   availableUnits(): Unit[] {
-    console.log(Unit.allUnits());
     return Unit.allUnits();
   }
 }

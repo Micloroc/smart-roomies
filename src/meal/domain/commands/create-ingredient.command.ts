@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsUUID } from 'class-validator';
+import { Unit } from '../../../common/domain/model/unit';
 
 export class CreateIngredient {
   @IsUUID(4)
@@ -10,10 +11,13 @@ export class CreateIngredient {
   @IsUUID(4)
   @IsNotEmpty()
   creatorId: string;
+  @IsNotEmpty()
+  public readonly defaultUnit: Unit;
 
-  constructor(id: string, title: string, creatorId: string) {
+  constructor(id: string, title: string, creatorId: string, defaultUnit: Unit) {
     this.id = id;
     this.title = title;
     this.creatorId = creatorId;
+    this.defaultUnit = defaultUnit;
   }
 }

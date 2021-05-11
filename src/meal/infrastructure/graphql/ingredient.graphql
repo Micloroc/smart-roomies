@@ -2,6 +2,7 @@ type Ingredient {
     id: String!
     title: String!
     creatorId: String!
+    defaultUnit: Unit!
 }
 
 type Query {

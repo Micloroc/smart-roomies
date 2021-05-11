@@ -26,7 +26,6 @@ export class MealResolvers {
   async mealsByCreatorId(
     @Args('creatorId') creatorId: string,
   ): Promise<Meal[]> {
-    console.log(await this.mealRepository.findByCreatorId(creatorId));
     return this.mealRepository.findByCreatorId(creatorId);
   }
 

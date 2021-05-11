@@ -31,7 +31,6 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
   async execute(createMeal: CreateMeal) {
     let meal = await this.mealRepository.findById(createMeal.id);
     if (meal) throw new MealAlreadyExistsException();
-
     createMeal.createMealIngredients = await this.populateIngredients(
       createMeal,
     );
@@ -73,8 +72,9 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
   ) {
     const createIngredient = new CreateIngredient(
       createMealIngredient.ingredientId,
-      createMeal.title,
+      createMealIngredient.title,
       createMeal.creatorId,
+      createMealIngredient.unit,
     );
     await this.commandBus.execute(createIngredient);
   }

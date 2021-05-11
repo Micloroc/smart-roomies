@@ -121,6 +121,7 @@ export interface Ingredient {
     id: string;
     title: string;
     creatorId: string;
+    defaultUnit: Unit;
 }
 
 export interface Meal {
