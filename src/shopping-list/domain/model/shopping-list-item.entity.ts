@@ -99,7 +99,7 @@ export class ShoppingListItem {
       command.id,
       command.name,
       command.amount,
-      new Unit(command.unit),
+      Unit.unitByValue(command.unit),
       new Date(),
       new Date(),
       command.order,
@@ -111,7 +111,7 @@ export class ShoppingListItem {
 
     this.name = command.name;
     this.amount = command.amount;
-    this.unit = new Unit(command.unit);
+    this.unit = Unit.unitByValue(command.unit);
     this.updatedAt = new Date();
     this.order = command.order;
   }

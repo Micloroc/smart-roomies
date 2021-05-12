@@ -1,9 +1,13 @@
 type Unit {
     value: String!
+    type: String!
+    scaleMultiplier: Float!
 }
 
 input UnitInput {
     value: String!
+    type: String!
+    scaleMultiplier: Float!
 }
 
 type Query {

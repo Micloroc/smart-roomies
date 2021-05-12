@@ -12,6 +12,8 @@ export interface CurrencyInput {
 
 export interface UnitInput {
     value: string;
+    type: string;
+    scaleMultiplier: number;
 }
 
 export interface CreateHomeInput {
@@ -85,6 +87,8 @@ export interface Currency {
 
 export interface Unit {
     value: string;
+    type: string;
+    scaleMultiplier: number;
 }
 
 export interface IQuery {
