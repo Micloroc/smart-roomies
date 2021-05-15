@@ -3,14 +3,14 @@ type Meal {
     creatorId: String!
     title: String!
     description: String
-    ingredients: [MealIngredient]
+    ingredients: [MealIngredient]!
 }
 
 type MealIngredient {
     id: String!
     ingredientId: String!
     amount: Float!
-    unit: Unit
+    unit: Unit!
 }
 
 type Query {

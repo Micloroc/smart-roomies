@@ -94,7 +94,7 @@ export interface Unit {
 export interface IQuery {
     availableUnits(): Unit[] | Promise<Unit[]>;
     home(id: string): Home | Promise<Home>;
-    ingredient(id: string): Ingredient | Promise<Ingredient>;
+    ingredientById(id: string): Ingredient | Promise<Ingredient>;
     ingredientsByCreatorId(id: string): Ingredient[] | Promise<Ingredient[]>;
     meal(id: string): Meal | Promise<Meal>;
     mealsByCreatorId(creatorId: string): Meal[] | Promise<Meal[]>;
@@ -133,14 +133,14 @@ export interface Meal {
     creatorId: string;
     title: string;
     description?: string;
-    ingredients?: MealIngredient[];
+    ingredients: MealIngredient[];
 }
 
 export interface MealIngredient {
     id: string;
     ingredientId: string;
     amount: number;
-    unit?: Unit;
+    unit: Unit;
 }
 
 export interface ShoppingListItem {

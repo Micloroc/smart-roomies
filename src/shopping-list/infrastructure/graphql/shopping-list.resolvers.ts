@@ -13,7 +13,7 @@ export class ShoppingListResolvers {
 
   @Query('shoppingList')
   async shoppingList(@Args('id') id: string) {
-    return this.shoppingListRepository.findById(id);
+    return await this.shoppingListRepository.findById(id);
   }
 
   @Mutation('createShoppingList')

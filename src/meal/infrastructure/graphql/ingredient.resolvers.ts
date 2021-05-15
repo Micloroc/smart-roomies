@@ -10,13 +10,13 @@ export class IngredientResolvers {
     private commandBus: CommandBus,
   ) {}
 
-  @Query('ingredient')
-  async getIngredient(@Args('id') id: string) {
+  @Query('ingredientById')
+  async ingredientById(@Args('id') id: string) {
     return this.ingredientRepository.findById(id);
   }
 
   @Query('ingredientsByCreatorId')
-  async getIngredientsByCreatorId(@Args('id') id: string) {
+  async ingredientsByCreatorId(@Args('id') id: string) {
     return this.ingredientRepository.findByCreatorId(id);
   }
 

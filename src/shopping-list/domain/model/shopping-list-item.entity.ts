@@ -15,7 +15,7 @@ export class ShoppingListItem {
   private readonly _id: string;
   @Column({ name: 'name' })
   private _name: string;
-  @Column({ name: 'amount' })
+  @Column({ name: 'amount', type: 'float' })
   private _amount: number;
   @Column({ name: 'order' })
   private _order: number;

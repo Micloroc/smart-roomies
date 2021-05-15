@@ -13,9 +13,9 @@ export class Unit {
   private static readonly VOLUME_TYPE = 'volume';
   private static readonly GENERIC_TYPE = 'generic';
 
-  private static readonly KILO_SCALE_MULTIPLIER = 0.001;
-  private static readonly REGULAR_SCALE_MULTIPLIER = 1;
-  private static readonly MILLI_SCALE_MULTIPLIER = 1000;
+  private static readonly KILO_SCALE_MULTIPLIER = 3;
+  private static readonly REGULAR_SCALE_MULTIPLIER = 2;
+  private static readonly MILLI_SCALE_MULTIPLIER = 1;
 
   @Column({ name: 'value' })
   public readonly value: string;
@@ -33,7 +33,7 @@ export class Unit {
     const foundUnit = Unit.allUnits().find(
       (unit: Unit) => unit.value === unitValue,
     );
-    if (foundUnit) throw new UnitNotFound();
+    if (!foundUnit) throw new UnitNotFound();
     return foundUnit;
   }
 

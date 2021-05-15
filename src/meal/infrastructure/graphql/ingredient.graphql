@@ -6,7 +6,7 @@ type Ingredient {
 }
 
 type Query {
-    ingredient(id: String!): Ingredient
+    ingredientById(id: String!): Ingredient
     ingredientsByCreatorId(id: String!): [Ingredient]
 }
 

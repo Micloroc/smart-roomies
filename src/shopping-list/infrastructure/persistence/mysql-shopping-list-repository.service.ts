@@ -10,7 +10,7 @@ export class MysqlShoppingListRepository
   implements ShoppingListRepository {
   async findById(id: string): Promise<ShoppingList | undefined> {
     return this.createQueryBuilder('shoppingList')
-      .innerJoinAndSelect('shoppingList._items', 'item')
+      .leftJoinAndSelect('shoppingList._items', 'item')
       .where('shoppingList._id = :id')
       .setParameter('id', id)
       .orderBy('item._order', 'ASC')
