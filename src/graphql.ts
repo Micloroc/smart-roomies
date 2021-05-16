@@ -6,6 +6,19 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export interface LoginUserInput {
+    email: string;
+    password: string;
+}
+
+export interface RegisterInput {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}
+
 export interface CurrencyInput {
     currency?: string;
 }
@@ -81,6 +94,17 @@ export interface UpdateShoppingListInput {
     items: ShoppingListItemInput[];
 }
 
+export interface IMutation {
+    login(login: LoginUserInput): string | Promise<string>;
+    register(register: RegisterInput): boolean | Promise<boolean>;
+    createHome(createHome: CreateHomeInput): boolean | Promise<boolean>;
+    createIngredient(createIngredient: CreateIngredientInput): boolean | Promise<boolean>;
+    createMeal(createMeal: CreateMealInput): boolean | Promise<boolean>;
+    addMealIngredient(addMealIngredient: AddMealIngredientInput): boolean | Promise<boolean>;
+    createShoppingList(createShoppingList: CreateShoppingListInput): boolean | Promise<boolean>;
+    updateShoppingList(updateShoppingList: UpdateShoppingListInput): boolean | Promise<boolean>;
+}
+
 export interface Currency {
     currency?: string;
 }
@@ -110,15 +134,6 @@ export interface Home {
     adminIds?: string[];
     userIds?: string[];
     currency?: Currency;
-}
-
-export interface IMutation {
-    createHome(createHome: CreateHomeInput): boolean | Promise<boolean>;
-    createIngredient(createIngredient: CreateIngredientInput): boolean | Promise<boolean>;
-    createMeal(createMeal: CreateMealInput): boolean | Promise<boolean>;
-    addMealIngredient(addMealIngredient: AddMealIngredientInput): boolean | Promise<boolean>;
-    createShoppingList(createShoppingList: CreateShoppingListInput): boolean | Promise<boolean>;
-    updateShoppingList(updateShoppingList: UpdateShoppingListInput): boolean | Promise<boolean>;
 }
 
 export interface Ingredient {

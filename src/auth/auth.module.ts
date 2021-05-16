@@ -8,11 +8,12 @@ import { AuthController } from './infrastructure/controller/auth.controller';
 import { ConfigService } from '@nestjs/config';
 import { LoginUserHandler } from './application/handler/login-user.handler';
 import { AuthService } from './application/service/auth.service';
+import { AuthResolvers } from './infrastructure/graphql/auth.resolvers';
 
 const AuthServiceProvider = {
   provide: AuthService,
-  useClass: JwtAuthService
-}
+  useClass: JwtAuthService,
+};
 @Module({
   imports: [
     UserModule,
@@ -22,14 +23,19 @@ const AuthServiceProvider = {
         return {
           secret: configService.get<string>('JWT_SECRET_KEY'),
           signOptions: {
-            expiresIn: configService.get<string>('JWT_EXPIRES_IN')
-          }
+            expiresIn: configService.get<string>('JWT_EXPIRES_IN'),
+          },
         };
       },
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthServiceProvider, JwtStrategy, LoginUserHandler],
+  providers: [
+    AuthServiceProvider,
+    JwtStrategy,
+    LoginUserHandler,
+    AuthResolvers,
+  ],
   exports: [AuthServiceProvider],
   controllers: [AuthController],
 })
