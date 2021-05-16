@@ -125,6 +125,7 @@ export interface IQuery {
     mealsByHomeId(homeId: string): Meal[] | Promise<Meal[]>;
     shoppingList(id: string): ShoppingList | Promise<ShoppingList>;
     user(id: string): User | Promise<User>;
+    userByEmail(email: string): User | Promise<User>;
 }
 
 export interface Home {
