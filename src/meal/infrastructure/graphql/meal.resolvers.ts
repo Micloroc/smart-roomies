@@ -23,10 +23,8 @@ export class MealResolvers {
   }
 
   @Query('mealsByCreatorId')
-  async mealsByCreatorId(
-    @Args('creatorId') creatorId: string,
-  ): Promise<Meal[]> {
-    return this.mealRepository.findByCreatorId(creatorId);
+  async mealsByCreatorId(@Args('id') id: string): Promise<Meal[]> {
+    return this.mealRepository.findByCreatorId(id);
   }
 
   @Mutation('createMeal')

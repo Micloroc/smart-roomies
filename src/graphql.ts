@@ -121,7 +121,7 @@ export interface IQuery {
     ingredientById(id: string): Ingredient | Promise<Ingredient>;
     ingredientsByCreatorId(id: string): Ingredient[] | Promise<Ingredient[]>;
     meal(id: string): Meal | Promise<Meal>;
-    mealsByCreatorId(creatorId: string): Meal[] | Promise<Meal[]>;
+    mealsByCreatorId(id: string): Meal[] | Promise<Meal[]>;
     mealsByHomeId(homeId: string): Meal[] | Promise<Meal[]>;
     shoppingList(id: string): ShoppingList | Promise<ShoppingList>;
     user(id: string): User | Promise<User>;
