@@ -12,8 +12,8 @@ export class MealResolvers {
     private commandBus: CommandBus,
   ) {}
 
-  @Query('meal')
-  async getMeal(@Args('id') id: string) {
+  @Query('mealById')
+  async mealById(@Args('id') id: string) {
     return this.mealRepository.findById(id);
   }
 

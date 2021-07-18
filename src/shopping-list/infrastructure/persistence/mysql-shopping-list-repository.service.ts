@@ -7,11 +7,21 @@ import { ShoppingList } from '../../domain/model/shopping-list.entity';
 @EntityRepository(ShoppingList)
 export class MysqlShoppingListRepository
   extends Repository<ShoppingList>
-  implements ShoppingListRepository {
+  implements ShoppingListRepository
+{
   async findById(id: string): Promise<ShoppingList | undefined> {
     return this.createQueryBuilder('shoppingList')
       .leftJoinAndSelect('shoppingList._items', 'item')
       .where('shoppingList._id = :id')
+      .setParameter('id', id)
+      .orderBy('item._order', 'ASC')
+      .getOne();
+  }
+
+  async findByUserId(id: string): Promise<ShoppingList | undefined> {
+    return this.createQueryBuilder('shoppingList')
+      .leftJoinAndSelect('shoppingList._items', 'item')
+      .where('shoppingList.userId = :id')
       .setParameter('id', id)
       .orderBy('item._order', 'ASC')
       .getOne();

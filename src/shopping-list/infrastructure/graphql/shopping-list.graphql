@@ -6,6 +6,7 @@ type ShoppingList {
 
 type Query {
     shoppingList(id: String!): ShoppingList
+    shoppingListByUserId(userId: String!): ShoppingList
 }
 
 input CreateShoppingListInput {

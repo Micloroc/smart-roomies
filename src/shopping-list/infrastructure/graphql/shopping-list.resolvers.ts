@@ -16,6 +16,11 @@ export class ShoppingListResolvers {
     return await this.shoppingListRepository.findById(id);
   }
 
+  @Query('shoppingListByUserId')
+  async shoppingListByUserId(@Args('userId') id: string) {
+    return await this.shoppingListRepository.findByUserId(id);
+  }
+
   @Mutation('createShoppingList')
   async createShoppingList(
     @Args('createShoppingList') createShoppingList: CreateShoppingList,

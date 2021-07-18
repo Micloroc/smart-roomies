@@ -14,7 +14,7 @@ type MealIngredient {
 }
 
 type Query {
-    meal(id: String!): Meal
+    mealById(id: String!): Meal
     mealsByCreatorId(id: String!): [Meal]
     mealsByHomeId(homeId: String!): [Meal]
 }
