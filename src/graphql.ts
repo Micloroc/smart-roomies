@@ -50,8 +50,8 @@ export interface CreateMealIngredientInput {
     id: string;
     mealId: string;
     ingredientId: string;
-    title: string;
     amount: number;
+    name: string;
     unit: UnitInput;
 }
 
@@ -68,6 +68,7 @@ export interface AddMealIngredientInput {
     mealIngredientId: string;
     ingredientId: string;
     amount: number;
+    name: string;
     ingredientUnit: IngredientUnitInput;
 }
 
@@ -157,6 +158,7 @@ export interface MealIngredient {
     id: string;
     ingredientId: string;
     amount: number;
+    name: string;
     unit: Unit;
 }
 

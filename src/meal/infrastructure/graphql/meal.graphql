@@ -10,6 +10,7 @@ type MealIngredient {
     id: String!
     ingredientId: String!
     amount: Float!
+    name: String!
     unit: Unit!
 }
 
@@ -23,8 +24,8 @@ input CreateMealIngredientInput {
     id: String!
     mealId: String!
     ingredientId: String!
-    title: String!
     amount: Float!
+    name: String!
     unit: UnitInput!
 }
 
@@ -45,6 +46,7 @@ input AddMealIngredientInput {
     mealIngredientId: String!
     ingredientId: String!
     amount: Float!
+    name: String!
     ingredientUnit: IngredientUnitInput!
 }
 

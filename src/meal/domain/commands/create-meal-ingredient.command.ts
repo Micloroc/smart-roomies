@@ -11,9 +11,9 @@ export class CreateMealIngredient {
   @IsNotEmpty()
   ingredientId: string;
   @IsNotEmpty()
-  title: string;
-  @IsNotEmpty()
   amount: number;
   @IsNotEmpty()
   unit: Unit;
+  @IsNotEmpty()
+  name: string;
 }

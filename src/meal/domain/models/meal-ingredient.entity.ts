@@ -8,11 +8,13 @@ export class MealIngredient {
   private readonly _id: string;
   @Column({ name: 'ingredientId' })
   private readonly _ingredientId: string;
+  @Column({ name: 'name' })
+  private readonly _name: string;
   @Column({ name: 'amount' })
   private readonly _amount: number;
-  @Column(type => Unit)
+  @Column((type) => Unit)
   private _unit: Unit;
-  @ManyToOne(type => Meal, '_ingredients')
+  @ManyToOne((type) => Meal, '_ingredients')
   private readonly _meal: Meal;
 
   constructor(
@@ -20,13 +22,19 @@ export class MealIngredient {
     ingredientId: string,
     amount: number,
     unit: Unit,
+    name: string,
     meal: Meal,
   ) {
     this._id = id;
     this._ingredientId = ingredientId;
     this._amount = amount;
+    this._name = name;
     this._unit = unit;
     this._meal = meal;
+  }
+
+  get name(): string {
+    return this._name;
   }
 
   get id(): string {

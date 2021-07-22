@@ -7,7 +7,8 @@ import { MealRepository } from '../../../domain/repositories/meal.repository';
 @EntityRepository(Meal)
 export class MysqlMealRepository
   extends Repository<Meal>
-  implements MealRepository {
+  implements MealRepository
+{
   async findById(id: string): Promise<Meal> {
     return this.findOne(id);
   }

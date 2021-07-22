@@ -15,4 +15,6 @@ export class AddMealIngredient {
   public readonly amount: number;
   @IsNotEmpty()
   public readonly ingredientUnit: Unit;
+  @IsNotEmpty()
+  public readonly name: string;
 }

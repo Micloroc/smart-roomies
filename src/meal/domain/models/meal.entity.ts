@@ -7,6 +7,7 @@ import { MealIngredientAdded } from '../events/meal-ingredient-added.event';
 import { MealStatus } from './meal-status';
 import { MealIngredientAlreadyExists } from '../exceptions/meal-ingredient-already-exists.exception';
 import { AddMealIngredient } from '../commands/add-meal-ingredient.command';
+import { CreateMealIngredient } from '../commands/create-meal-ingredient.command';
 
 @Entity()
 export class Meal extends AggregateRoot {
@@ -85,16 +86,19 @@ export class Meal extends AggregateRoot {
       MealStatus.enabled(),
     );
     const mealIngredients = [];
-    command.createMealIngredients.forEach((createMealIngredient) => {
-      const mealIngredient = new MealIngredient(
-        createMealIngredient.id,
-        createMealIngredient.ingredientId,
-        createMealIngredient.amount,
-        createMealIngredient.unit,
-        meal,
-      );
-      mealIngredients.push(mealIngredient);
-    });
+    command.createMealIngredients.forEach(
+      (createMealIngredient: CreateMealIngredient) => {
+        const mealIngredient = new MealIngredient(
+          createMealIngredient.id,
+          createMealIngredient.ingredientId,
+          createMealIngredient.amount,
+          createMealIngredient.unit,
+          createMealIngredient.name,
+          meal,
+        );
+        mealIngredients.push(mealIngredient);
+      },
+    );
 
     meal.ingredients = mealIngredients;
     meal.apply(new MealCreated(command));
@@ -121,6 +125,7 @@ export class Meal extends AggregateRoot {
         command.ingredientId,
         command.amount,
         command.ingredientUnit,
+        command.name,
         this,
       ),
     );

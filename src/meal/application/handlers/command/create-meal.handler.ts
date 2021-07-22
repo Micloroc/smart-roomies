@@ -72,7 +72,7 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
   ) {
     const createIngredient = new CreateIngredient(
       createMealIngredient.ingredientId,
-      createMealIngredient.title,
+      createMealIngredient.name,
       createMeal.creatorId,
       createMealIngredient.unit,
     );
