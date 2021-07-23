@@ -55,7 +55,7 @@ export interface CreateMealIngredientInput {
     unit: UnitInput;
 }
 
-export interface CreateMealInput {
+export interface CreateOrUpdateMealInput {
     id: string;
     creatorId: string;
     title: string;
@@ -100,7 +100,7 @@ export interface IMutation {
     register(register: RegisterInput): boolean | Promise<boolean>;
     createHome(createHome: CreateHomeInput): boolean | Promise<boolean>;
     createIngredient(createIngredient: CreateIngredientInput): boolean | Promise<boolean>;
-    createMeal(createMeal: CreateMealInput): boolean | Promise<boolean>;
+    createOrUpdateMeal(createOrUpdateMeal: CreateOrUpdateMealInput): boolean | Promise<boolean>;
     addMealIngredient(addMealIngredient: AddMealIngredientInput): boolean | Promise<boolean>;
     createShoppingList(createShoppingList: CreateShoppingListInput): boolean | Promise<boolean>;
     updateShoppingList(updateShoppingList: UpdateShoppingListInput): boolean | Promise<boolean>;

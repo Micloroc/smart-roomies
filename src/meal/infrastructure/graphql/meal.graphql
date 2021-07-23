@@ -29,7 +29,7 @@ input CreateMealIngredientInput {
     unit: UnitInput!
 }
 
-input CreateMealInput {
+input CreateOrUpdateMealInput {
     id: String!
     creatorId: String!
     title: String!
@@ -38,7 +38,7 @@ input CreateMealInput {
 }
 
 type Mutation {
-    createMeal(createMeal: CreateMealInput!): Boolean
+    createOrUpdateMeal(createOrUpdateMeal: CreateOrUpdateMealInput!): Boolean
 }
 
 input AddMealIngredientInput {

@@ -6,7 +6,7 @@ import {
 } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../../../../user/domain/repositories/user.repository';
-import { CreateMeal } from '../../../domain/commands/create-meal.command';
+import { CreateMealOrUpdateMeal } from '../../../domain/commands/create-meal.command';
 import { MealRepository } from '../../../domain/repositories/meal.repository';
 import { MealAlreadyExistsException } from '../../../domain/exceptions/meal-already-exists.exception';
 import { Meal } from '../../../domain/models/meal.entity';
@@ -17,8 +17,10 @@ import { IngredientNotFound } from '../../../domain/exceptions/ingredient-not-fo
 import { CreateMealIngredient } from '../../../domain/commands/create-meal-ingredient.command';
 
 @Injectable()
-@CommandHandler(CreateMeal)
-export class CreateMealHandler implements ICommandHandler<CreateMeal> {
+@CommandHandler(CreateMealOrUpdateMeal)
+export class CreateOrUpdateMealHandler
+  implements ICommandHandler<CreateMealOrUpdateMeal>
+{
   constructor(
     private mealRepository: MealRepository,
     private userRepository: UserRepository,
@@ -28,20 +30,17 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
     private commandBus: CommandBus,
   ) {}
 
-  async execute(createMeal: CreateMeal) {
-    let meal = await this.mealRepository.findById(createMeal.id);
-    if (meal) throw new MealAlreadyExistsException();
-    createMeal.createMealIngredients = await this.populateIngredients(
-      createMeal,
-    );
-
-    meal = Meal.create(createMeal);
+  async execute(command: CreateMealOrUpdateMeal) {
+    let meal = await this.mealRepository.findById(command.id);
+    command.createMealIngredients = await this.populateIngredients(command);
+    if (!meal) meal = Meal.create(command);
+    else meal.update(command);
     await this.mealRepository.save(meal);
     meal = this.publisher.mergeObjectContext(meal);
     meal.commit();
   }
 
-  private async populateIngredients(createMeal: CreateMeal) {
+  private async populateIngredients(createMeal: CreateMealOrUpdateMeal) {
     return await Promise.all(
       createMeal.createMealIngredients.map(async (createMealIngredient) => {
         await this.createIngredientIfNeeded(createMealIngredient, createMeal);
@@ -52,7 +51,7 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
 
   private async createIngredientIfNeeded(
     createMealIngredient: CreateMealIngredient,
-    createMeal: CreateMeal,
+    createMeal: CreateMealOrUpdateMeal,
   ) {
     let ingredient = await this.ingredientRepository.findById(
       createMealIngredient.ingredientId,
@@ -67,7 +66,7 @@ export class CreateMealHandler implements ICommandHandler<CreateMeal> {
   }
 
   private async createIngredient(
-    createMeal: CreateMeal,
+    createMeal: CreateMealOrUpdateMeal,
     createMealIngredient: CreateMealIngredient,
   ) {
     const createIngredient = new CreateIngredient(

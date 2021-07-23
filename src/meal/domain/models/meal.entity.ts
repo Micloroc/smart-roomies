@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { MealIngredient } from './meal-ingredient.entity';
 import { MealCreated } from '../events/meal-created.event';
-import { CreateMeal } from '../commands/create-meal.command';
+import { CreateMealOrUpdateMeal } from '../commands/create-meal.command';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { MealIngredientAdded } from '../events/meal-ingredient-added.event';
 import { MealStatus } from './meal-status';
@@ -23,6 +23,8 @@ export class Meal extends AggregateRoot {
   private _description: string;
   @Column({ name: 'createdAt' })
   private _createdAt: Date;
+  @Column({ name: 'updatedAt', nullable: true })
+  private _updateAt: Date | null;
   @Column((type) => MealStatus)
   private _status: MealStatus;
 
@@ -39,8 +41,8 @@ export class Meal extends AggregateRoot {
     this._title = title;
     this._description = description;
     if (!description) this._description = '';
-
     this._createdAt = new Date();
+    this._createdAt = null;
     this._status = status;
   }
 
@@ -56,16 +58,32 @@ export class Meal extends AggregateRoot {
     return this._status;
   }
 
+  set status(value: MealStatus) {
+    this._status = value;
+  }
+
   get title(): string {
     return this._title;
+  }
+
+  set title(value: string) {
+    this._title = value;
   }
 
   get description(): string {
     return this._description;
   }
 
+  set description(value: string) {
+    this._description = value;
+  }
+
   get createdAt(): Date {
     return this._createdAt;
+  }
+
+  set createdAt(value: Date) {
+    this._createdAt = value;
   }
 
   private get ingredients(): MealIngredient[] {
@@ -77,7 +95,7 @@ export class Meal extends AggregateRoot {
     this._ingredients = value;
   }
 
-  static create(command: CreateMeal) {
+  static create(command: CreateMealOrUpdateMeal) {
     const meal = new Meal(
       command.id,
       command.creatorId,
@@ -103,6 +121,29 @@ export class Meal extends AggregateRoot {
     meal.ingredients = mealIngredients;
     meal.apply(new MealCreated(command));
     return meal;
+  }
+
+  update(command: CreateMealOrUpdateMeal) {
+    this.creatorId = command.creatorId;
+    this.title = command.title;
+    this.description = command.description;
+    const mealIngredients = [];
+    command.createMealIngredients.forEach(
+      (createMealIngredient: CreateMealIngredient) => {
+        const mealIngredient = new MealIngredient(
+          createMealIngredient.id,
+          createMealIngredient.ingredientId,
+          createMealIngredient.amount,
+          createMealIngredient.unit,
+          createMealIngredient.name,
+          this,
+        );
+        mealIngredients.push(mealIngredient);
+      },
+    );
+    this.ingredients = mealIngredients;
+    this.apply(new MealCreated(command));
+    return this;
   }
 
   ingredientById(id: string): MealIngredient | null {

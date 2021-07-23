@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CommandBus } from '@nestjs/cqrs';
 import { MealRepository } from '../../domain/repositories/meal.repository';
-import { CreateMeal } from '../../domain/commands/create-meal.command';
+import { CreateMealOrUpdateMeal } from '../../domain/commands/create-meal.command';
 import { AddMealIngredient } from '../../domain/commands/add-meal-ingredient.command';
 import { Meal } from '../../domain/models/meal.entity';
 
@@ -27,9 +27,11 @@ export class MealResolvers {
     return this.mealRepository.findByCreatorId(id);
   }
 
-  @Mutation('createMeal')
-  async createMeal(@Args('createMeal') createMeal: CreateMeal) {
-    await this.commandBus.execute(createMeal);
+  @Mutation('createOrUpdateMeal')
+  async createMeal(
+    @Args('createOrUpdateMeal') createOrUpdateMeal: CreateMealOrUpdateMeal,
+  ) {
+    await this.commandBus.execute(createOrUpdateMeal);
   }
 
   @Mutation('addMealIngredient')

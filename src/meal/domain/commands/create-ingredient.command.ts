@@ -8,7 +8,6 @@ export class CreateIngredient {
   @IsNotEmpty()
   title: string;
   @IsUUID(4)
-  @IsUUID(4)
   @IsNotEmpty()
   creatorId: string;
   @IsNotEmpty()

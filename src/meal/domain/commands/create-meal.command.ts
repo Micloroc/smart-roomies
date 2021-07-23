@@ -1,7 +1,7 @@
 import { IsArray, IsNotEmpty, IsUUID } from 'class-validator';
 import { CreateMealIngredient } from './create-meal-ingredient.command';
 
-export class CreateMeal {
+export class CreateMealOrUpdateMeal {
   @IsUUID(4)
   @IsNotEmpty()
   id: string;

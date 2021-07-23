@@ -4,7 +4,7 @@ import { UserModule } from '../user/user.module';
 import { HomeModule } from '../home/home.module';
 import { MealResolvers } from './infrastructure/graphql/meal.resolvers';
 import { CreateIngredientHandler } from './application/handlers/command/create-ingredient.handler';
-import { CreateMealHandler } from './application/handlers/command/create-meal.handler';
+import { CreateOrUpdateMealHandler } from './application/handlers/command/create-or-update-meal-handler.service';
 import { AddMealIngredientHandler } from './application/handlers/command/add-meal-ingredient.handler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MysqlMealRepository } from './infrastructure/persistence/meal/mysql-meal-repository.service';
@@ -18,13 +18,14 @@ import { Ingredient } from './domain/models/ingredient.entity';
 
 const MealRepositoryProvider: Provider = {
   provide: MealRepository,
-  useFactory: connection => connection.getCustomRepository(MysqlMealRepository),
+  useFactory: (connection) =>
+    connection.getCustomRepository(MysqlMealRepository),
   inject: [Connection],
 };
 
 const IngredientRepositoryProvider: Provider = {
   provide: IngredientRepository,
-  useFactory: connection =>
+  useFactory: (connection) =>
     connection.getCustomRepository(MysqlIngredientRepository),
   inject: [Connection],
 };
@@ -41,7 +42,7 @@ const IngredientRepositoryProvider: Provider = {
     CreateIngredientHandler,
     IngredientResolvers,
     MealResolvers,
-    CreateMealHandler,
+    CreateOrUpdateMealHandler,
     AddMealIngredientHandler,
   ],
   exports: [],
