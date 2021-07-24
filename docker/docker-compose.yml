@@ -13,7 +13,8 @@ services:
       - ../:/home/node/app
     depends_on:
       - db
-    command: npm run start:dev
+    command: npx concurrently "ts-node generate-typings.ts" "npm run start:dev"
+
     env_file:
       - ../.env
 #  db:
